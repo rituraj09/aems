@@ -2,27 +2,12 @@
 include("../config.php"); 
 include("../layout/header.php"); 
 $name = "";
-$vehicle_name_err="";
+$name_err="";
 $reg =""; 
 $reg_err="";
-$owner ="";
-$owners_err="";
-$owner_ph ="";
-$owner_ph_err="";
-$driver ="";
-$driver_err="";
-$driver_ph ="";
-$driver_ph_err=""; 
-$type =""; 
-$type_err="";
-$seat =""; 
-$seat_err="";
-$used_from =""; 
+$date_on ="";
 $date_on_err="";
-$fuel="";
-$fuel_err="";
-$used_err="";
-$used_type="";
+ 
 $ok_username = "";
 $msg="";  
 if(isset($_POST['Submit']))
@@ -30,57 +15,21 @@ if(isset($_POST['Submit']))
 
     $reg =  trim($_POST['reg']);
     $name =   $_POST['name']; 
-    $owner =  $_POST['owner']; 
-    $owner_ph =  $_POST['owner_ph']; 
-    $driver =  $_POST['driver']; 
-    $driver_ph =   $_POST['driver_ph']; 
-    $type =  $_POST['type']; 
-    $seat =  $_POST['seat']; 
-    $used_from =  $_POST['used_from'];  
-    $fuel =  $_POST['fuel'];  
-    $used_from =  $_POST['used_from'];  
-    $used_type =  $_POST['used_type'];  
-  
-  
-    if(empty($_POST["name"])){  
-        $vehicle_name_err = "Please enter Vehicle Name.";
-    } 
+    $date_on =  $_POST['date_on'];  
+    if(empty(trim($_POST["date_on"]))){
+        $date_on_err = "Please enter Date.";
+    }  
     elseif(empty(trim($_POST["reg"]))){
         $reg_err = "Please enter the Vehicle Registration Number.";
     } 
-    elseif(empty(trim($_POST["owner"]))){
-        $owners_err = "Please enter Owner Name.";
-    } 
-    elseif(empty($_POST["owner_ph"])){
-        $owner_ph_err = "Please enter Owner's Phone Number.";
-    } 
-    elseif(empty(trim($_POST["driver"]))){
-        $driver_err = "Please enter driver Name.";
-    } 
-    elseif(empty($_POST["driver_ph"])){
-        $driver_ph_err = "Please enter Drivers's Phone Number.";
-    }  
-
-    elseif(empty(trim($_POST["type"]))){
-        $type_err = "Please select vehicle type.";
-    } 
-    
-    elseif(empty($_POST["seat"])){
-        $seat_err = "Please enter Seating capacity";
-    } 
-    elseif(empty($_POST["fuel"])){
-        $fuel_err = "Please select Fuel Type";
-    } 
-    elseif(empty(trim($_POST["used_from"]))){
-        $date_on_err = "Please enter the date used from";
-    } 
-    elseif(empty($_POST["used_type"])){
-        $used_err = "Please select Used as";
+    elseif(empty($_POST["name"])){  
+        $vehicle_name_err = "Please enter Officer Name.";
     } 
    
     else
     {  
-        $s = "SELECT count(1) as cnt from vehicles where reg_no = '$reg'";
+        $date = date('Y-m-d', strtotime($date_on));
+        $s = "SELECT count(1) as cnt from vehicle_assign where reg_no = '$reg' and used_on= '$date' and status > 0";
         $sqlx = mysqli_query($mysqli, $s);         
         while($str = mysqli_fetch_array($sqlx))
         { 
@@ -88,7 +37,7 @@ if(isset($_POST['Submit']))
             {   
                 $date_from = date('Y-m-d', strtotime($used_from));
                 $reg = strtoupper($reg);
-                $sql="Insert into vehicles (owner_name,owner_phone, driver_name, driver_phone, reg_no,vehicle_type,model,seat,used_type,fuel_type,used_from) values ('$owner','$owner_ph','$driver', '$driver_ph', '$reg', '$type','$name','$seat','$used_type','$fuel','$date_from')";
+                $sql="Insert into vehicle_assign (reg_no,person_name, person_contact, vehicle_id, person_id,used_on,fuel_given,used_for,remarks,cby,status) values ('$owner','$owner_ph','$driver', '$driver_ph', '$reg', '$type','$name','$seat','$used_type','$fuel','$date_from')";
                 $result=mysqli_query($mysqli,$sql);
                 if($result=="1")
                 {                   
@@ -137,8 +86,8 @@ if(isset($_POST['Submit']))
                         <div class="form-group row <?php echo (!empty($date_on_err)) ? 'has-error' : ''; ?>">
                             <label class="col-md-3 col-form-label">Date</label>
                             <div class='col-md-5 input-group date'>
-                                <input type="text" name="used_from" autocomplete="off" id="used_from"  tabindex="1"
-                                class="form-control datepicker date-format"   placeholder="dd-mm-yyyy"  value="<?php echo $used_from; ?>"
+                                <input type="text" name="date_on" autocomplete="off" id="date_on"  tabindex="1"
+                                class="form-control datepicker date-format"   placeholder="dd-mm-yyyy"  value="<?php echo $date_on; ?>"
                                 onblur="ValidateDate(this, event.keyCode);" onkeydown="return DateFormat(this, event.keyCode)" maxlength="10" onfocus="this.select();">
                                     <span class="input-group-text">
                                             <span class="icon-calendar"></span>
@@ -160,11 +109,11 @@ if(isset($_POST['Submit']))
                                 <span class="text-danger"><?php echo $reg_err; ?></span>
                             </div>    
                         </div> 
-                        <div class="form-group row <?php echo (!empty($reg_err)) ? 'has-error' : ''; ?>">
+                        <div class="form-group row <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
                             <label  class="col-md-3 col-form-label">Officer Name</label>
                             <div class='col-md-5'>
-                                <input type="text" id="reg" name="reg" tabindex="3" class="form-control" autocomplete="off" maxlength="10"   style="text-transform: uppercase;"  value="<?php echo $reg; ?>">
-                                <span class="text-danger"><?php echo $reg_err; ?></span>
+                                <input type="text" id="name" name="name" tabindex="3" class="form-control" autocomplete="off"  value="<?php echo $name; ?>">
+                                <span class="text-danger"><?php echo $name_err; ?></span>
                             </div>    
                         </div> 
                 </div>
@@ -203,7 +152,7 @@ if(isset($_POST['Submit']))
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">     
-                <table class="table table-bordered">
+                <table id="myTab" class="table table-bordered">
                 <thead>
                 <tr>
                     <th width="35%">
@@ -231,13 +180,26 @@ if(isset($_POST['Submit']))
                     <input type="text" id="distto0" name="distto0"  autocomplete="off"   class="form-control" value="">
                     </td>  
                     <td>
-                        <input type="text" id="dist0" name="dist0"  class="form-control"  autocomplete="off" onkeydown="return numeric(this, event.keyCode)"  maxlength="3" value="">
+                        <input type="text" id="dist0" name="dist0"  class="form-control txtCal"  autocomplete="off" onkeydown="return numeric(this, event.keyCode)"  maxlength="3" value="">
                     </td>    
                     <td>
                         <input type="button" id="addRowBtn" class="btn btn-md btn-primary" value="Add">
                     </td>         
                 </tr>
                 </tbody>
+                <tfooter>
+                <tr>
+                    <th colspan="2" width="35%">
+                     <span class="pull-right"> Total</span> 
+                    </th> 
+                    <th width="20%">
+                        <label id="total_val">0</label>
+                    </th>   
+                    <th>
+                        
+                    </th>          
+                </tr>
+                </tfooter>
                 </table>
             </div>
         </div>
@@ -256,7 +218,7 @@ include("../layout/footerhead.php");
 include("../layout/basefooter.php"); 
 ?>
 <script type="text/javascript" >
-$(document).ready(function(){
+$(document).ready(function(){ 
     $('#reg').keydown(function (e) { 
        var k = e.which;
         var ok = k >= 65 && k <= 90 || // A-Z
@@ -269,8 +231,22 @@ $(document).ready(function(){
             e.preventDefault();
         }     
     }); 
-   
+    calculate();
 });
+function calculate()
+{
+    $("#myTab").on('input', '.txtCal', function () {
+    var calculated_total_sum = 0;
+    $("#myTab .txtCal").each(function () {
+        var get_textbox_value = $(this).val();
+        if ($.isNumeric(get_textbox_value)) {
+        calculated_total_sum += parseFloat(get_textbox_value);
+        }                  
+    });
+    $("#total_val").html(calculated_total_sum);
+});
+
+}
 function numeric(txt, keyCode) {
     if (keyCode == 16)
         isShift = true;
@@ -330,12 +306,13 @@ $(function(){
         var tabid1="distfrom"+d;
         var tabid2="distto"+d;
         var tabidkm="dist"+d;
-        $("<tr id='"+trid+"'><td><input type='text' id='"+tabid1+"' name='"+tabid1+"' class='form-control' autocomplete='off' value=''></td><td> <input type='text'  id='"+tabid2+"' name='"+tabid2+"' class='form-control'  autocomplete='off' value=''></td><td>  <input type='text'  id='"+tabidkm+"' name='"+tabidkm+"' class='form-control'  autocomplete='off'  onkeydown='return numeric(this, event.keyCode)'  maxlength='3'  value=''></td><td><a onclick='deleteRow("+d+")' href='#' class='btn btn-md btn-danger'>Delete</a></td></tr>").appendTo(tbl);        
+        $("<tr id='"+trid+"'><td><input type='text' id='"+tabid1+"' name='"+tabid1+"' class='form-control ' autocomplete='off' value=''></td><td> <input type='text'  id='"+tabid2+"' name='"+tabid2+"' class='form-control'  autocomplete='off' value=''></td><td>  <input type='text'  id='"+tabidkm+"' name='"+tabidkm+"' class='form-control txtCal'  autocomplete='off'  onkeydown='return numeric(this, event.keyCode)'  maxlength='3'  value=''></td><td><a onclick='deleteRow("+d+")' href='#' class='btn btn-md btn-danger'>Delete</a></td></tr>").appendTo(tbl);        
     }); 
 });
 function deleteRow(txt) {  
     var id= 'tr'+txt;
-        $('#'+id).remove();   
+        $('#'+id).remove(); 
+        calculate();
     }  
 
 function getdetails() {     
@@ -360,5 +337,5 @@ function getdetails() {
             $('#fuel').html(resp.fuel);              
         }, 
     });
-}
+} 
 </script>
