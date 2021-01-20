@@ -203,47 +203,51 @@ if(isset($_POST['Submit']))
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">     
-                <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th width="35%">
-                        From
-                    </th>   
-                    <th width="35%">
-                        To
-                    </th> 
-                    <th width="20%">
-                        Distance (in KM)
-                    </th>   
-                    <th>
-                        Action
-                    </th>          
-                </tr>
-                </thead>
-                <tbody id="logtab" >
-                </tbody>
-                <tbody>
-                <tr>
-                    <td>
-                    <input type="text" id="distfrom0" name="distfrom0"  autocomplete="off"   class="form-control" value="">
-                    </td>   
-                    <td>
-                    <input type="text" id="distto0" name="distto0"  autocomplete="off"   class="form-control" value="">
-                    </td>  
-                    <td>
-                        <input type="text" id="dist0" name="dist0"  class="form-control"  autocomplete="off" onkeydown="return numeric(this, event.keyCode)"  maxlength="3" value="">
-                    </td>    
-                    <td>
-                        <input type="button" id="addRowBtn" class="btn btn-md btn-primary" value="Add">
-                    </td>         
-                </tr>
-                </tbody>
-                </table>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th width="35%">
+                                From
+                            </th>   
+                            <th width="35%">
+                                To
+                            </th> 
+                            <th width="20%">
+                                Distance (in KM)
+                            </th>   
+                            <th>
+                                Action
+                            </th>          
+                        </tr>
+                        </thead>
+                        <tbody id="logtab" >
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td>
+                            <input type="text" id="distfrom0" name="distfrom0"  autocomplete="off"   class="form-control" value="">
+                            </td>   
+                            <td>
+                            <input type="text" id="distto0" name="distto0"  autocomplete="off"   class="form-control" value="">
+                            </td>  
+                            <td>
+                                <input type="text" id="dist0" name="dist0"  class="form-control"  autocomplete="off" onkeydown="return numeric(this, event.keyCode)"  maxlength="3" value="">
+                            </td>    
+                            <td>
+                                <input type="button" id="addRowBtn" class="btn btn-md btn-primary" value="Add">
+                            </td>         
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                   <span class="pull-right"><button class="btn btn-md btn-success">Submit</button>
+                    <a class="btn btn-md btn-danger">Reset</a></span> 
+                </div> 
             </div>
         </div>
-    </div>
-    
-</div> 
+        
+    </div> 
 
 </form>
 </div> 
