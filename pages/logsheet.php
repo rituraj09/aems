@@ -1,29 +1,33 @@
 <?php
 include("../config.php"); 
 include("../layout/header.php"); 
-$name = "";
-$name_err="";
+$officer = "";
+$officer_err="";
 $reg =""; 
 $reg_err="";
 $date_on ="";
 $date_on_err="";
- 
-$ok_username = "";
+$fuelqty =""; 
+$fuelqty_err =""; 
+$ok = "1";
 $msg="";  
 if(isset($_POST['Submit']))
 {
 
     $reg =  trim($_POST['reg']);
-    $name =   $_POST['name']; 
-    $date_on =  $_POST['date_on'];  
+    $officer =   $_POST['officer']; 
+    $date_on =  $_POST['date_on'];   
+    $fuelqty =   $_POST['fuelqty'];   
+
+
     if(empty(trim($_POST["date_on"]))){
         $date_on_err = "Please enter Date.";
     }  
     elseif(empty(trim($_POST["reg"]))){
         $reg_err = "Please enter the Vehicle Registration Number.";
     } 
-    elseif(empty($_POST["name"])){  
-        $vehicle_name_err = "Please enter Officer Name.";
+    elseif(empty($_POST["officer"])){  
+        $officer_err = "Please enter Officer Name.";
     } 
    
     else
@@ -34,26 +38,41 @@ if(isset($_POST['Submit']))
         while($str = mysqli_fetch_array($sqlx))
         { 
             if((int)$str["cnt"]<1)
-            {   
-                $date_from = date('Y-m-d', strtotime($used_from));
-                $reg = strtoupper($reg);
-                $sql="Insert into vehicle_assign (reg_no,person_name, person_contact, vehicle_id, person_id,used_on,fuel_given,used_for,remarks,cby,status) values ('$owner','$owner_ph','$driver', '$driver_ph', '$reg', '$type','$name','$seat','$used_type','$fuel','$date_from')";
+            {    
+                
+                $sql="Insert into vehicle_assign (reg_no,person_name,used_on,fuel_request,cby,status) values ('$reg','$officer','$date', '$fuelqty', 1,9)";
                 $result=mysqli_query($mysqli,$sql);
                 if($result=="1")
-                {                   
-                    $msg="<span style='color:green'>Successfully Save.</span>";
-                    $reg = "";
-                    $name =   "";
-                    $owner =   "";
-                    $owner_ph =  "";
-                    $driver =   "";
-                    $driver_ph =   "";
-                    $type =  "";
-                    $seat =  "";
-                    $used_from =  "";
-                    $fuel =   "";
-                    $used_from =  "";  
-                    $used_type =  "";
+                {      
+                    $id = mysqli_insert_id($mysqli);        
+                    for($i=0; $i < count($_POST['distfrom']); $i++) {
+                        $distfrom = addslashes($_POST['distfrom'][$i]);
+                        $distto = addslashes($_POST['distto'][$i]);
+                        $dist = addslashes($_POST['dist'][$i]); 
+ 
+                        $sql="Insert into vehicle_trans(v_assigned_id, used_on,reg_no,loc_from,loc_to,distance) values('$id','$date','$reg','$distfrom','$distto','$dist')";
+                        $rslt=mysqli_query($mysqli,$sql);
+                        if($rslt!="1") 
+                        {
+                            $ok=="0";
+                        } 
+                    }      
+                    if($ok==1) { 
+                        $msg="<span style='color:green'>Successfully Save.</span>";
+                        $officer = "";
+                        $officer_err="";
+                        $reg =""; 
+                        $reg_err="";
+                        $date_on ="";
+                        $date_on_err="";
+                        $fuelqty =""; 
+                        $fuelqty_err =""; 
+                        $ok = "1";  
+                    }
+                    else{
+                        $msg="<span style='color:red'>Error in Trans DB!</span>";
+                    }
+                   
                 } 
                 else{
                     $msg="<span style='color:red'>Somthings went wrong!</span>";
@@ -61,7 +80,7 @@ if(isset($_POST['Submit']))
             }
             else
             {
-                $phone_err = "User with this phone number is already available.";
+                $phone_err = "Fuel has been already given.";
             }
         }            
     }
@@ -86,35 +105,48 @@ if(isset($_POST['Submit']))
                         <div class="form-group row <?php echo (!empty($date_on_err)) ? 'has-error' : ''; ?>">
                             <label class="col-md-3 col-form-label">Date</label>
                             <div class='col-md-5 input-group date'>
-                                <input type="text" name="date_on" autocomplete="off" id="date_on"  tabindex="1"
+                                <input type="text" name="date_on" autocomplete="off" id="date_on"   required
                                 class="form-control datepicker date-format"   placeholder="dd-mm-yyyy"  value="<?php echo $date_on; ?>"
                                 onblur="ValidateDate(this, event.keyCode);" onkeydown="return DateFormat(this, event.keyCode)" maxlength="10" onfocus="this.select();">
                                     <span class="input-group-text">
                                             <span class="icon-calendar"></span>
-                                    </span>
+                                    </span> 
+                            </div>
+                            <div class='col-md-4 input-group date'>
                                     <span class="text-danger"><?php echo $date_on_err; ?></span>
-                                </div>
+                            </div>
                         </div> 
                         <div class="form-group row <?php echo (!empty($reg_err)) ? 'has-error' : ''; ?>">
                             <label  class="col-md-3 col-form-label">Registration No.</label>
                             <div class='col-md-5'>
          
-                                <input  list="brow" id="reg" name="reg" tabindex="2" class="form-control" autocomplete="off" maxlength="10"  onblur="return getdetails()"   style="text-transform: uppercase;"  value="<?php echo $reg; ?>">
+                                <input  list="brow" id="reg" name="reg" required class="form-control" autocomplete="off" maxlength="10"  onblur="return getdetails()"   style="text-transform: uppercase;"  value="<?php echo $reg; ?>">
                                 <datalist id="brow" >
                                         <?php    $election_types = mysqli_query($mysqli, "SELECT * from vehicles"); ?> 
                                         <?php while($r= mysqli_fetch_array($election_types)) { ?>
                                              <option value="<?php echo $r["reg_no"]; ?>"  > 
                                         <?php } ?>  
-                                </datalist>
-                                <span class="text-danger"><?php echo $reg_err; ?></span>
+                                </datalist> 
                             </div>    
+                            <div class='col-md-4 input-group date'>
+                                    <span class="text-danger"><?php echo $reg_err; ?></span>
+                            </div>
                         </div> 
-                        <div class="form-group row <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
+                        <div class="form-group row <?php echo (!empty($officer_err)) ? 'has-error' : ''; ?>">
                             <label  class="col-md-3 col-form-label">Officer Name</label>
-                            <div class='col-md-5'>
-                                <input type="text" id="name" name="name" tabindex="3" class="form-control" autocomplete="off"  value="<?php echo $name; ?>">
-                                <span class="text-danger"><?php echo $name_err; ?></span>
+                            <div class='col-md-5'> 
+                            <input  list="namelist" id="officer" required name="officer"  class="form-control" autocomplete="off" value="<?php echo $officer; ?>">
+                                <datalist id="namelist" >
+                                        <?php    $election_types = mysqli_query($mysqli, "SELECT * from personnel"); ?> 
+                                        <?php while($r= mysqli_fetch_array($election_types)) { ?>
+                                             <option value="<?php echo $r["name"].', '.$r["designation"].', ['.$r["phone"].']'; ?>"  > </option>
+                                        <?php } ?>  
+                                </datalist> 
                             </div>    
+                            <div class='col-md-4 input-group date'>
+                                    <span class="text-danger"><?php echo $officer_err; ?></span>
+                            </div>
+                            <label id="desig" class="col-md-3 col-form-label"></label>
                         </div> 
                 </div>
             </div> 
@@ -145,6 +177,7 @@ if(isset($_POST['Submit']))
                         </div> 
                       
                 </div>
+                
             </div>  
         </div>
     </div> 
@@ -152,56 +185,78 @@ if(isset($_POST['Submit']))
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">     
-                <table id="myTab" class="table table-bordered">
-                <thead>
-                <tr>
-                    <th width="35%">
-                        From
-                    </th>   
-                    <th width="35%">
-                        To
-                    </th> 
-                    <th width="20%">
-                        Distance (in KM)
-                    </th>   
-                    <th>
-                        Action
-                    </th>          
-                </tr>
-                </thead>
-                <tbody id="logtab" >
-                </tbody>
-                <tbody>
-                <tr>
-                    <td>
-                    <input type="text" id="distfrom0" name="distfrom0"  autocomplete="off"   class="form-control" value="">
-                    </td>   
-                    <td>
-                    <input type="text" id="distto0" name="distto0"  autocomplete="off"   class="form-control" value="">
-                    </td>  
-                    <td>
-                        <input type="text" id="dist0" name="dist0"  class="form-control txtCal"  autocomplete="off" onkeydown="return numeric(this, event.keyCode)"  maxlength="3" value="">
-                    </td>    
-                    <td>
-                        <input type="button" id="addRowBtn" class="btn btn-md btn-primary" value="Add">
-                    </td>         
-                </tr>
-                </tbody>
-                <tfooter>
-                <tr>
-                    <th colspan="2" width="35%">
-                     <span class="pull-right"> Total</span> 
-                    </th> 
-                    <th width="20%">
-                        <label id="total_val">0</label>
-                    </th>   
-                    <th>
-                        
-                    </th>          
-                </tr>
-                </tfooter>
-                </table>
+                    <table id="myTab" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th width="30%">
+                                From
+                            </th>   
+                            <th width="30%">
+                                To
+                            </th> 
+                            <th width="25%">
+                                Distance (in KM)
+                            </th>   
+                            <th>
+                                Action
+                            </th>          
+                        </tr>
+                        </thead>
+                       
+                        <tbody>
+                        <tr>
+                            <td>
+                            <input type="text" id="distfrom0" name="distfrom[]" required autocomplete="off"   class="form-control" value="">
+                            </td>   
+                            <td>
+                            <input type="text" id="distto0" name="distto[]" required autocomplete="off"   class="form-control" value="">
+                            </td>  
+                            <td>
+                                <input type="text" id="dist0" name="dist[]" required class="form-control txtCal"  autocomplete="off" onkeydown="return numeric(this, event.keyCode)"  maxlength="3" value="">
+                            </td>    
+                            <td>
+                            <span id="btnfld0">
+                                <a  id="addRowBtn0" onclick="addRow()" href="javascript:void(0)" class="btn btn-md btn-primary">Add</a>
+                           </span>
+                            </td>         
+                        </tr>
+                        </tbody>
+                        <tbody id="logtab" >
+                        </tbody>
+                        <tfooter>
+                        <tr>
+                            <th colspan="2" width="35%">
+                            <span class="pull-right"> Total</span> 
+                            </th> 
+                            <th width="20%">
+                                <label id="total_val">0</label>
+                            </th>   
+                            <th>
+                                
+                            </th>          
+                        </tr>
+                        </tfooter>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row <?php echo (!empty($fuelqty_err)) ? 'has-error' : ''; ?>">
+                            <label  class="col-md-3 col-form-label"><strong>Fuel (in Liter)</strong></label>
+                                <div class='col-md-8'>
+                                    <input type="text" id="fuelqty" name="fuelqty" required onkeydown="return numeric(this, event.keyCode)"  maxlength="2"  class="form-control" autocomplete="off"  value="<?php echo $fuelqty; ?>">
+                                    <span class="text-danger"><?php echo $fuelqty_err; ?></span>
+                                </div>    
+                            </div> 
+                        </div>
+                         
+                    </div>
+                  
             </div>
+            <div class="card-footer">
+                  <span class="pull-right">
+                    <input type="submit" name="Submit" value="Submit" tabindex="12"  class="btn btn-primary"  > 
+                    <a href="logsheet.php" tabindex="13"  class="btn btn-default">Reset</a> 
+                  </span>
+            </div> 
         </div>
     </div>
     
@@ -230,9 +285,10 @@ $(document).ready(function(){
         if (!ok){
             e.preventDefault();
         }     
-    }); 
+    });  
     calculate();
 });
+ 
 function calculate()
 {
     $("#myTab").on('input', '.txtCal', function () {
@@ -250,7 +306,7 @@ function calculate()
 function numeric(txt, keyCode) {
     if (keyCode == 16)
         isShift = true;
-    if (((keyCode >= 48 && keyCode <= 57) || keyCode == 8 ||
+    if ((((keyCode >= 48 && keyCode <= 57) || keyCode == 8) ||  keyCode == 9 ||
          (keyCode >= 96 && keyCode <= 105)) && isShift == false) {
          
         return true;
@@ -293,34 +349,35 @@ function ValidateDate(txt, keyCode) {
             alert("Invalid Date");
             return false;
         }
-    };  
-
-
-    
-$(function(){
-    var tbl = $("#logtab");  
-    $("#addRowBtn").click(function(){ 
+    };   
+function addRow() { 
+        var tbl = $("#logtab");
         var d= $('#logtab').find('tr').length; 
+        n = Number(d);
         d = Number(d)+1;
         var trid="tr"+d;
         var tabid1="distfrom"+d;
         var tabid2="distto"+d;
         var tabidkm="dist"+d;
-        $("<tr id='"+trid+"'><td><input type='text' id='"+tabid1+"' name='"+tabid1+"' class='form-control ' autocomplete='off' value=''></td><td> <input type='text'  id='"+tabid2+"' name='"+tabid2+"' class='form-control'  autocomplete='off' value=''></td><td>  <input type='text'  id='"+tabidkm+"' name='"+tabidkm+"' class='form-control txtCal'  autocomplete='off'  onkeydown='return numeric(this, event.keyCode)'  maxlength='3'  value=''></td><td><a onclick='deleteRow("+d+")' href='#' class='btn btn-md btn-danger'>Delete</a></td></tr>").appendTo(tbl);        
-    }); 
-});
-function deleteRow(txt) {  
+        var btnfldid="btnfld"+d; 
+        $("<tr id='"+trid+"'><td><input type='text' required id='"+tabid1+"' name='distfrom[]' class='form-control ' autocomplete='off' value=''></td><td> <input type='text'  id='"+tabid2+"' name='distto[]' required class='form-control'  autocomplete='off' value=''></td><td>  <input type='text'  id='"+tabidkm+"' name='dist[]' class='form-control txtCal' required autocomplete='off'  onkeydown='return numeric(this, event.keyCode)'  maxlength='3'  value=''></td><td><span id='"+btnfldid+"'><a  onclick='addRow()' href='javascript:void(0)' class='btn btn-md btn-primary'>Add</a> <a onclick='deleteRow("+d+")' href='javascript:void(0)' class='btn btn-md btn-danger'>Delete</a></span></td></tr>").appendTo(tbl);        
+        $('#btnfld'+n).hide();
+    } 
+ 
+function deleteRow(txt) { 
     var id= 'tr'+txt;
-        $('#'+id).remove(); 
+    n = Number(txt)-1;
+        $('#'+id).remove();  
+        $('#btnfld'+n).show();
+        var btnfldid="btnfld"+d; 
         calculate();
     }  
 
 function getdetails() {     
-    debugger;  
     var val= $('#reg').val();    
     $.ajax({   
         dataType:'json',  
-        data: ({reg: val}),
+        data: {'op': "1", 'reg': val},
         type: "GET",
         url: "getreg.php", 
         error: function (resp) {
@@ -338,4 +395,5 @@ function getdetails() {
         }, 
     });
 } 
+ 
 </script>
