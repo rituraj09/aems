@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +7,7 @@
   <meta name="description" content="CoreUI Pro - Bootstrap 4 Admin Template">
   <meta name="author" content="Łukasz Holeczek">
   <meta name="keyword" content=",">
-  <link rel="shortcut icon" href="img/favicon.png">
+  <link rel="shortcut icon" href="img/favicon.png"> 
   <title>CoreUI Pro - Bootstrap 4 Admin Template</title>
 
   <!-- Icons -->

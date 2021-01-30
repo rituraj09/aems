@@ -32,15 +32,17 @@ if(isset($_POST['Submit']))
    
     else
     {  
+        
+
         $date = date('Y-m-d', strtotime($date_on));
         $s = "SELECT count(1) as cnt from vehicle_assign where reg_no = '$reg' and used_on= '$date' and status > 0";
         $sqlx = mysqli_query($mysqli, $s);         
         while($str = mysqli_fetch_array($sqlx))
         { 
-            if((int)$str["cnt"]<1)
-            {    
+           // if((int)$str["cnt"]<1)
+            //{    
                 
-                $sql="Insert into vehicle_assign (reg_no,person_name,used_on,fuel_request,cby,status) values ('$reg','$officer','$date', '$fuelqty', 1,9)";
+                $sql="Insert into vehicle_assign (reg_no,person_name,used_on,fuel_request,cby,status) values ('$reg','$officer','$date', '$fuelqty', 1,1)";
                 $result=mysqli_query($mysqli,$sql);
                 if($result=="1")
                 {      
@@ -58,16 +60,7 @@ if(isset($_POST['Submit']))
                         } 
                     }      
                     if($ok==1) { 
-                        $msg="<span style='color:green'>Successfully Save.</span>";
-                        $officer = "";
-                        $officer_err="";
-                        $reg =""; 
-                        $reg_err="";
-                        $date_on ="";
-                        $date_on_err="";
-                        $fuelqty =""; 
-                        $fuelqty_err =""; 
-                        $ok = "1";  
+                        header("Location: receipt.php?id=".$id);
                     }
                     else{
                         $msg="<span style='color:red'>Error in Trans DB!</span>";
@@ -77,11 +70,11 @@ if(isset($_POST['Submit']))
                 else{
                     $msg="<span style='color:red'>Somthings went wrong!</span>";
                 }
-            }
-            else
-            {
-                $phone_err = "Fuel has been already given.";
-            }
+           // }
+           // else
+           // {
+            //    $msg = "Fuel has been already given.";
+          //  }
         }            
     }
           
@@ -94,7 +87,7 @@ if(isset($_POST['Submit']))
         <p><b><?php echo $msg ?></b></p>
         </div>
     </div> 
-<form action="logsheet.php" method="POST" class="col-md-12"  name="form1" onsubmit="return validation()">
+<form action="logsheet.php" method="POST" class="col-md-12"  name="form1" onsubmit="return confirm('Do you really want to submit the form?');">
     <div class="row">  
         <div class="col-md-6">
             <div class="card">
@@ -253,7 +246,8 @@ if(isset($_POST['Submit']))
             </div>
             <div class="card-footer">
                   <span class="pull-right">
-                    <input type="submit" name="Submit" value="Submit" tabindex="12"  class="btn btn-primary"  > 
+                   
+                    <input type="submit" name="Submit" value="Submit" class="btn btn-primary"  >   
                     <a href="logsheet.php" tabindex="13"  class="btn btn-default">Reset</a> 
                   </span>
             </div> 
@@ -261,7 +255,6 @@ if(isset($_POST['Submit']))
     </div>
     
 </div> 
-
 </form>
 </div> 
 <?php 
