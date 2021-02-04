@@ -34,17 +34,17 @@ if(isset($_REQUEST['search']))
 
    if($search=='')
    {
-         $qry1 = "SELECT  a.*, c.caste, d.mark FROM  cand a inner join categories b on a.roll=b.rollno inner join castemaster c on b.caste=c.id   inner join marks d on d.slno=a.sl  order by mark DESC";
+         $qry1 = "SELECT  a.*, d.mark, c.mob ,c.dob, c.quali,  c.docs FROM  candidates a inner join cand_details c on c.sl=a.sl    inner join marks d on d.slno=a.sl  order by mark DESC";
    }
    else { 
-         $qry1 = "SELECT  a.*, c.caste, d.mark FROM  cand a inner join categories b on a.roll=b.rollno inner join castemaster c on b.caste=c.id   inner join marks d on d.slno=a.sl where c.id='$search' order by mark DESC";
+         $qry1 = "SELECT  a.*, d.mark, c.mob ,c.dob, c.quali,  c.docs FROM  candidates a inner join cand_details c on c.sl=a.sl   inner join marks d on d.slno=a.sl where a.casteid='$search' order by mark DESC";
    
       }
 }
 else {
     $search="";
     $txt="All";
-    $qry1 = "SELECT  a.*, c.caste, d.mark FROM  cand a inner join categories b on a.roll=b.rollno inner join castemaster c on b.caste=c.id   inner join marks d on d.slno=a.sl  order by mark DESC";
+    $qry1 = "SELECT  a.*, d.mark , c.mob ,c.dob, c.quali,  c.docs FROM  candidates a inner join cand_details c on c.sl=a.sl  inner join marks d on d.slno=a.sl  order by mark DESC";
 }
  $rslt1=mysqli_query($mysqli,$qry1);
  $rowcount=mysqli_num_rows($rslt1);

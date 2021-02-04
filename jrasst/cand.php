@@ -34,17 +34,17 @@ if(isset($_REQUEST['search']))
 
    if($search=='')
    {
-         $qry1 = "SELECT  a.*, c.caste  FROM  cand a inner join categories b on a.roll=b.rollno inner join castemaster c on b.caste=c.id     order by sl";
+      $qry1 = "SELECT  a.*, d.mob ,d.dob, d.quali, d.docs FROM  candidates a inner join cand_details d on d.sl=a.sl  order by sl";      
    }
    else { 
-         $qry1 = "SELECT  a.*, c.caste FROM  cand a inner join categories b on a.roll=b.rollno inner join castemaster c on b.caste=c.id    where c.id='$search' order by sl";
+      $qry1 = "SELECT  a.*, d.mob ,d.dob, d.quali, d.docs FROM  candidates a  inner join cand_details d on d.sl=a.sl where a.casteid='$search' order by sl";
    
       }
 }
 else {
     $search="";
     $txt="All";
-    $qry1 = "SELECT  a.*, c.caste  FROM  cand a inner join categories b on a.roll=b.rollno inner join castemaster c on b.caste=c.id    order by sl";
+        $qry1 = "SELECT  a.*, d.mob ,d.dob, d.quali, d.docs FROM  candidates a inner join cand_details d on d.sl=a.sl  order by sl";
 }
  $rslt1=mysqli_query($mysqli,$qry1);
  $rowcount=mysqli_num_rows($rslt1);
@@ -103,9 +103,21 @@ Gender
  </th>
  <th>
 Address
- </th>
+ </th> 
  <th>
 Category
+ </th> 
+ <th>
+Mobile
+ </th> 
+ <th>
+DOB
+ </th> 
+ <th>
+Qualification
+ </th> 
+ <th>
+Docs
  </th> 
  </tr>
  <?php 
@@ -131,9 +143,21 @@ while($r= mysqli_fetch_array($rslt1)) {
  </td>
  <td>
  <?php echo $r['address']; ?>
- </td>
+ </td> 
  <td>
  <?php echo $r['caste']; ?>
+ </td> 
+ <td>
+ <?php echo $r['mob']; ?>
+ </td> 
+ <td>
+ <?php echo $r['dob']; ?>
+ </td> 
+ <td>
+ <?php echo $r['quali']; ?>
+ </td> 
+ <td>
+ <?php echo $r['docs']; ?>
  </td> 
  </tr>
  <?php

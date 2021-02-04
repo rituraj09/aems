@@ -2,38 +2,43 @@
 
 
 header("Content-Type: application/xls");    
+$txt="exp";
 $qry1 = "";
         if(isset($_REQUEST['cat']))
         {
             $cat=$_REQUEST['cat'];
             if($cat=='')
             {
-                $qry1 = "SELECT  a.*, c.caste, d.mark FROM  cand a inner join categories b on a.roll=b.rollno inner join castemaster c on b.caste=c.id   inner join marks d on d.slno=a.sl  order by mark DESC";
-            }
-            else {
-                $qry1 = "SELECT  a.*, c.caste, d.mark FROM  cand a inner join categories b on a.roll=b.rollno inner join castemaster c on b.caste=c.id   inner join marks d on d.slno=a.sl where c.id='$cat' order by mark DESC";
-            }
-           
+                $qry1 = "SELECT  a.*, d.mark , c.mob ,c.dob, c.quali,  c.docs FROM  candidates a inner join cand_details c on c.sl=a.sl  inner join marks d on d.slno=a.sl  order by mark DESC";
+          }
+          else { 
+ 
+                $qry1 = "SELECT  a.*, d.mark, c.mob ,c.dob, c.quali,  c.docs FROM  candidates a inner join cand_details c on c.sl=a.sl   inner join marks d on d.slno=a.sl where a.casteid='$cat' order by mark DESC";
+   
+             }
+            if($cat==1)
+                $txt="General_exp";
+            elseif($cat==2)
+                $txt="OBC_exp";
+            elseif($cat==3)
+                $txt="SC_exp";
+            elseif($cat==4)
+                $txt="ST_H_exp";
+            elseif($cat==5)
+                $txt="ST_P_exp";               
+            elseif($cat==6)
+                $txt="EWS_exp";   
+            elseif($cat==7)
+                $txt="PWD_exp";      
+            else
+                $txt="All_exp";
         }
         else {
-            $qry1 = "SELECT  a.*, c.caste, d.mark FROM  cand a inner join categories b on a.roll=b.rollno inner join castemaster c on b.caste=c.id   inner join marks d on d.slno=a.sl  order by mark DESC";
+            $qry1 = "SELECT  a.*, d.mark , c.mob ,c.dob, c.quali,  c.docs FROM  candidates a inner join cand_details c on c.sl=a.sl  inner join marks d on d.slno=a.sl  order by mark DESC";
+   
+            $txt="All_exp";
         }
-        if($_REQUEST['cat']==1)
-      $txt="General_exp";
-   elseif($_REQUEST==2)
-      $txt="OBC_exp";
-   elseif($_REQUEST==3)
-      $txt="SC_exp";
-   elseif($_REQUEST==4)
-      $txt="ST_H_exp";
-   elseif($_REQUEST==5)
-      $txt="ST_P_exp";               
-   elseif($_REQUEST==6)
-      $txt="EWS_exp";   
-   elseif($_REQUEST==7)
-      $txt="PWD_exp";      
-   else
-      $txt="All_exp";
+        
 
     $filename=$txt.".xls";
 	header("Content-Disposition: attachment; filename=$filename");  
@@ -56,6 +61,8 @@ $qry1 = "";
 						<th>Gender</th>
 						<th>Address</th>
                         <th>Category</th> 
+                        <th>DOB</th> 
+                        <th>Qualification</th> 
 						<th>Total Marks</th>
 					</tr>
 				<tbody>
@@ -76,6 +83,8 @@ $qry1 = "";
 						<td>".$r['gender']."</td>
 						<td>".$r['address']."</td>
 						<td>".$r['caste']."</td>
+						<td>".$r['dob']."</td>
+						<td>".$r['quali']."</td>
 						<td>".$r['mark']."</td>
 					</tr>
 		";
