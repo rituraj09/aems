@@ -208,7 +208,7 @@ if(isset($_POST['Submit']))
                         </td>
                         <td> 
                         <a class='btn btn-xs btn-info'  
-                            href='user_pass.php?id=<?php echo $r["id"];  ?>' >change Password</a> 
+                            href='changes.php?id=<?php echo $r["id"];  ?>' >change Password</a> 
                         </td>
                         </tr>
                         <?php } ?>

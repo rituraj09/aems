@@ -29,7 +29,7 @@ include("../layout/baseheader.php");
             <strong>Settings</strong>
           </div> 
           <a class="dropdown-item" href="#"><i class="fa fa-wrench"></i> Settings</a> 
-          <a class="dropdown-item" href="#"><i class="fa fa-lock"></i> Logout</a>
+          <a class="dropdown-item" href="logout.php"><i class="fa fa-lock"></i> Logout</a>
         </div>
       </li>
       
@@ -41,7 +41,7 @@ include("../layout/baseheader.php");
       <nav class="sidebar-nav">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="index.html"><i class="icon-speedometer"></i> Dashboard  </a>
+            <a class="nav-link" href="dashboard.php"><i class="icon-speedometer"></i> Dashboard  </a>
           </li>
 
           <li class="nav-title">

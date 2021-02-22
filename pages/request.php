@@ -1,6 +1,7 @@
 <?php
 include("../config.php"); 
-$msg="";include("../layout/header.php"); 
+$msg="";
+include("../layout/header.php"); 
 
  ?>
  <div class="container-fluid">

@@ -4,6 +4,7 @@ include("../layout/baseheader.php");
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     header("location: dashboard.php");
     exit;
+    
 }
 include("../config.php");  
 // Define variables and initialize with empty values
@@ -84,75 +85,50 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     mysqli_close($mysqli);
 }
  ?>
-<style>   
-    .app 
-    {
-        min-height:auto !important;
-        margin-top:120px;
-    }
-    .logo_log{ width:20%; }
-    @media (min-width: 1200px)
-    {
-        .app { margin-top:120px;}
-    .logo_log{ width:20%; }
-    }
-    @media (max-width: 992px)
-    {
-        .app {margin-top:60px;}
-        .logo_log{ width:40%; }
-    }
-    @media (max-width: 768px)
-    {
-        .app{margin-top:0px;}
-        .logo_log{ width:50%; }
-    }   
-    @media (max-width: 576px)
-    {
-        .app { margin-top:0px;}
-        .logo_log{ width:60%; }
-    }
-</style>
-</head>
 <body class="app flex-row align-items-center">
-  <div class="container"> 
+  <div class="container">
     <div class="row justify-content-center">
-    <img src="../layout/img/logo.png"  class="logo_log" alt="#">
-    </div> 
-    <div class="row justify-content-center">
-      <div class="col-md-5">
+      <div class="col-md-6">
         <div class="card-group">
           <div class="card p-4">
-          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="card-body">
               <h1>Login</h1>
               <p class="text-muted">Sign In to your account</p>
               <div class="input-group mb-3 <?php echo (!empty($phone_err)) ? 'has-error' : ''; ?>">
-                <div class="input-group-prepend">
+                <div class="input-group-prepend  ">
                   <span class="input-group-text"><i class="icon-user"></i></span>
                 </div>
                 <input type="text" class="form-control" name="phone" placeholder="phone" value="<?php echo $phone; ?>">
+                <span class="help-block text-danger"><?php echo $phone_err; ?></span>
               </div>
-              <span class="help-block text-danger"><?php echo $phone_err; ?></span>
-              <div class="input-group mb-4   <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+              <div class="input-group mb-4  <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="icon-lock"></i></span>
                 </div>
-                <input type="password" class="form-control" name="password" placeholder="Password">
+                <input type="password" class="form-control"  name="password" placeholder="Password"> 
               </div>
               <span class="help-block text-danger"><?php echo $password_err; ?></span>
               <div class="row">
-                <div class="col-6">
+                <div class="col-4">
                 <input type="submit" name="Submit"  class="btn btn-primary px-4" value="Login">
+                  
                 </div>
-              
+                
               </div>
             </div>
+
             </form>
           </div>
-        
+           
         </div>
       </div>
-    </div> 
-<?php 
+    </div>
+  
+
+</div>
+ <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+
+ <?php
 include("../layout/basefooter.php"); 
-?>
+?> 
