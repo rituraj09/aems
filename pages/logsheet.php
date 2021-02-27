@@ -9,6 +9,7 @@ $date_on ="";
 $date_on_err="";
 $fuelqty =""; 
 $fuelqty_err =""; 
+$cby="";
 $ok = "1";
 $msg="";  
 if(isset($_POST['Submit']))
@@ -18,7 +19,7 @@ if(isset($_POST['Submit']))
     $officer =   $_POST['officer']; 
     $date_on =  $_POST['date_on'];   
     $fuelqty =   $_POST['fuelqty'];   
-
+    $cby=$_SESSION['user_id'];
 
     if(empty(trim($_POST["date_on"]))){
         $date_on_err = "Please enter Date.";
@@ -42,7 +43,7 @@ if(isset($_POST['Submit']))
            // if((int)$str["cnt"]<1)
             //{    
                 
-                $sql="Insert into vehicle_assign (reg_no,person_name,used_on,fuel_request,cby,status) values ('$reg','$officer','$date', '$fuelqty', 1,1)";
+                $sql="Insert into vehicle_assign (reg_no,person_name,used_on,fuel_request,cby,status) values ('$reg','$officer','$date', '$fuelqty', '$cby',1)";
                 $result=mysqli_query($mysqli,$sql);
                 if($result=="1")
                 {      

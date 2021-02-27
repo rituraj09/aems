@@ -1,5 +1,10 @@
 <?php 
 include("../layout/baseheader.php"); 
+session_start();
+if( $_SESSION['user_id']=="")
+{        
+ header('Location: index.php');
+}
 ?>
 
  
@@ -52,20 +57,21 @@ include("../layout/baseheader.php");
           </li>
           <li class="nav-item">
             <a href="vehicle.php" class="nav-link"><i class="fa fa-car"></i> Vehicle Master</a>
-          </li>
-          <li class="nav-item">
-            <a href="typography.html" class="nav-link"><i class="icon-pencil"></i> Cell Master</a>
-          </li>
-          <li class="nav-item">
-            <a href="typography.html" class="nav-link"><i class="fa fa-building"></i> Training Venue</a>
-          </li>
+          </li> 
           <li class="nav-title">
             Data Entry
           </li>
           <li class="nav-item nav-dropdown">
             <a class="nav-link" href="logsheet.php"><i class="fa fa-calendar-plus-o"></i> Vehicle Log Sheet</a>
         
-          </li>    
+          </li>   
+          <li class="nav-title">
+            Reports
+          </li> 
+          <li class="nav-item nav-dropdown">
+            <a class="nav-link" href="reportsdaily.php"><i class="fa fa-file"></i> Dailty Fuel Reports</a>
+        
+          </li>   
         </ul>
       </nav>
       <button class="sidebar-minimizer brand-minimizer" type="button"></button>

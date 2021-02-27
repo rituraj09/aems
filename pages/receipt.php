@@ -1,12 +1,7 @@
 <?php
 include("../config.php");   
 include("../layout/header.php"); 
-?>
- 
-<style> 
-</style>
- 
-
+?>  
 <?php 
  
 if(isset($_REQUEST['id']))
