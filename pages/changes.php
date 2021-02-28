@@ -18,8 +18,7 @@ if(isset($_REQUEST['id']))
 ?>
 
 <div class="col-md-6 col-sm-12">
-            <div class="card">
-              
+            <div class="card"> 
                 <div class="card-body">
 <form action="changes.php?id=<?php echo $id ?>" method="post"> 
 <input type="password" class="form-control"  name="password" placeholder="Password">  

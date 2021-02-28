@@ -59,7 +59,8 @@ $.fn.dataTable.ext.errMode = 'none';
                 { data: "usedin", name: "usedin",orderable: true, searchable: true, visible: true },
                 { data: "fuel", name: "fuel",orderable: true, searchable: true, visible: true },
                 { data: "desig", render:function (data, type, row) {
-                    let  out = '<a href="#" class="btn btn-sm btn-success">Edit</a> <a href="vehicleslip.php?id='+row.id+'" class="btn btn-sm btn-danger">Print Slip</a>'
+                    let  out = '<a href="vehicleslip.php?id='+row.id+'" class="btn btn-sm btn-success" title="View Details"><i class="fa fa-circle-o"></i></a> <a href="#" class="btn btn-sm btn-warning" title="Edit"  ><i class="fa fa-pencil"></i></a> '
+                    out +=' <a href="vehicleslip.php?id='+row.id+'" class="btn btn-sm btn-primary" title="Print Slip"><i class="fa fa-print"></i></a> <a href="vehicleslip.php?id='+row.id+'" class="btn btn-sm btn-danger" title="Discharge Vehicle"><i class="fa fa-times-rectangle-o"></i></a>'
                          
                     return out;
                     }

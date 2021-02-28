@@ -26,76 +26,47 @@ $rslt=mysqli_query($mysqli,$qry);
                             </div> 
                 </div>
             </div>
-            <div id="view-print"  class="card"> 
-                <div class="row"> 
-                    <div class="col-md-12">
-                        <table   class="table table-bordered  datatable dataTable">
-                            <tr>
-                                <th width="60px">
-                                Sl No.
-                                </th>
-                                <th>
-                                   Trans ID
-                                </th>
-                                <th>
-                                    Date
-                                </th>
-                                <th>
-                                    Vehicle No.
-                                </th>
-                                <th>
-                                    Fuel Type
-                                </th>
-                                <th>
-                                    Fuel Qty (in Lt).
-                                </th>
-                                <th>
-                                    Action
-                                </th>
-                            </tr>
-                            <?php
-                            $sl = 0;
-                            $tot= 0;
-                            while($rsult= mysqli_fetch_array($rslt)) { 
-                                $sl = $sl+1;
-                                ?>
-                            <tr>
-                                <td>
-                                <?php echo $sl; ?>
-                                </td>
-                                <td>
-                                <?php echo str_pad($rsult['id'], 4, "0", STR_PAD_LEFT); ?>
-                                </td>
-                                <td>
-                                <?php echo date('d-m-Y', strtotime($rsult['used_on'])); ?>
-                                </td>
-                                <td>
-                                <?php  echo $rsult['reg_no']; ?>
-                                </td>
-                                <td>
-                                <?php  echo $rsult['fname']; ?>
-                                </td>
-                                <td>
-                                <?php echo $rsult['fuel_tot']; 
-                                   $tot=    $tot+ $rsult['fuel_tot'];
-                                ?>
-                                </td>
-                                <td>
-                                    <a href="receipt.php?id=<?php echo $rsult['id'] ?>" class="btn btn-sm btn-success"><i class="fa fa-circle-o"></i></a>
-                                </td>
-                            </tr>
-                            <?php }?>
-                            <tr>
-                            <td colspan="5">
-                                <b style="float:right;">Total</b>
-                            </td>
-                            <td colspan="2">
-                                <?php echo  $tot ?>
-                            </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div> 
+            <div id="view-print"  class="card">  
+                <div class="card-body">
+                    <div class="row"> 
+                        <div class="col-md-12">
+                            <table id="report" class="table table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <th width="60px">
+                                        Sl No.
+                                        </th>
+                                        <th>
+                                            Trans ID
+                                        </th>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                            Vehicle No.
+                                        </th>
+                                        <th>
+                                            Fuel Type
+                                        </th>
+                                        <th width="130px">
+                                            Fuel Qty (in Lt).
+                                        </th>
+                                        <th width="80px">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="5" style="text-align:right">Page Total:<br>All Total:</th>
+                                        <th ></th>
+                                        <th ></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div> 
+                </div>
             </div>
         </div>
     </div> 
@@ -109,7 +80,69 @@ include("../layout/footerhead.php");
  <?php
 include("../layout/basefooter.php"); 
 ?>
+
 <script>
+$(document).ready(function() {  
+    var qs = window.location.search.split('reg=')[1]
+    getrep(qs);
+})
+function getrep(qs)
+{  
+    var reg=qs
+    $.fn.dataTable.ext.errMode = 'none';
+    var table =$('#report').DataTable( {
+        processing: true,
+        serverSide: false,
+        bDestroy: true,
+        ajax: {
+            url: "getreports.php",
+            data: {rep: 2, reg:reg}, 
+        },
+        order: [[ 0, "asc" ]],
+        columns: [
+            { data: "sl", name: "sl",orderable: true, searchable: true, visible: true },
+            { data: "transid" , name: "transid",orderable: true, searchable: true, visible: true },
+            { data: "date" , name: "date",orderable: true, searchable: true, visible: true },
+            { data: "reg_no", name: "reg_no",orderable: true, searchable: true, visible: true },
+            { data: "fname", name: "fname",orderable: true, searchable: true, visible: true },
+            { data: "fuel_tot", name: "fuel_tot",orderable: true, searchable: true, visible: true }, 
+            { data: "fuel_tot", render:function (data, type, row) {
+                    let  out = '<a href="receipt.php?id='+row.id+'" class="btn btn-sm btn-success" title="View Details"><i class="fa fa-circle"></i></a>'
+                     return out;
+                    }
+                },
+        ],
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data; 
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            }; 
+            // Total over all pages
+            total = api
+                .column( 5 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ); 
+            // Total over this page
+            pageTotal = api
+                .column( 5, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Update footer
+            $( api.column( 5 ).footer() ).html(
+                pageTotal +'<br>'+ total 
+            );
+        }
+    });
+}
 function printDiv(divName) {
      var printContents = document.getElementById(divName).innerHTML;
      var originalContents = document.body.innerHTML;

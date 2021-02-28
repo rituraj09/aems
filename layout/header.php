@@ -33,7 +33,10 @@ if( $_SESSION['user_id']=="")
           <div class="dropdown-header text-center">
             <strong>Settings</strong>
           </div> 
-          <a class="dropdown-item" href="#"><i class="fa fa-wrench"></i> Settings</a> 
+          <?php if( $_SESSION['user_type']=="1") {?>
+            <a class="dropdown-item" href="user.php"><i class="fa fa-user"></i> Create User</a> 
+          <?php }?>
+        
           <a class="dropdown-item" href="logout.php"><i class="fa fa-lock"></i> Logout</a>
         </div>
       </li>

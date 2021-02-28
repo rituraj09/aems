@@ -9,7 +9,7 @@ while($r = mysqli_fetch_array($s1))
     $vehicleCOunt=$r["cnt"];
 }
 
-$qry2 = "select count(1) as cnt, b.name  from vehicles a inner join fuels b on a.fuel_type = b.id where status=1  group by fuel_type";
+$qry2 = "select sum(distance) as cnt from vehicle_trans where status=1";
 $s2= mysqli_query($mysqli, $qry2);         
 
 $date =date('Y-m-d');
@@ -29,78 +29,37 @@ $s4= mysqli_query($mysqli, $qry4);
             </div>
             <div class="row">
                 <div class="col-md-3 col-sm-4">
-                    <div class="card">
+                    <div class="card text-white bg-success">
                         <div class="card-body text-center">
-                            <div class="text-muted small text-uppercase font-weight-bold">Total Vehicle Registered</div>
+                            <div class="small text-uppercase font-weight-bold">Total Vehicle Registered</div>
                             <div class="h2 py-3">
                             <?php echo $vehicleCOunt ?>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card">
+                <div class="col-md-3 col-sm-6">
+                    <div class="card text-white bg-primary">
                         <div class="card-body text-center">
-                            <div class="text-muted small text-uppercase font-weight-bold">Nos of Vehicles in Fuel Type</div>
-                          
-                        </div>
-                        <div class="card-body py-0 px-4 b-t-1">
-                                <div class="row"> 
-                                    <?php 
-                                    $sl=0;
-                                    while($r2 = mysqli_fetch_array($s2)) 
-                                        {
-                                        $sl =$sl+1;  
-                                            ?>
-                                            <?php if( $sl==1) {?>
-                                                <div class="col-6 b-r-1 py-3 text-center">
-                                            <?php } 
-                                            else { ?>
-                                                <div class='col-6 py-3 text-center'>
-                                            <?php }
-                                            ?>
-                                                <div class="font-weight-bold"> <?php echo $r2["cnt"]; ?>  </div>
-                                                <div class="font-weight-bold text-muted"> <?php echo $r2["name"]; ?> </div>
-                                            </div>
-                                        <?php }?> 
-                                </div>
+                            <div class="small text-uppercase font-weight-bold">Total Distance Covered</div>
+                            <div class="h2 py-3">
+                            
+                            <?php 
+                           while($r2 = mysqli_fetch_array($s2)) { 
+                            echo $r2["cnt"] ." KMs";
+                            } 
+                            ?>
                             </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <div class="text-muted small text-uppercase font-weight-bold">Fuel Issued on Today</div>
-                          
-                        </div>
-                        <div class="card-body py-0 px-4 b-t-1">
-                                <div class="row">
-                                <?php 
-                                    $sl=0;
-                                    while($r3 = mysqli_fetch_array($s3)) 
-                                        {
-                                        $sl =$sl+1;  
-                                            ?>
-                                            <?php if( $sl==1) {?>
-                                                <div class="col-6 b-r-1 py-3 text-center">
-                                            <?php } 
-                                            else { ?>
-                                                <div class='col-6 py-3 text-center'>
-                                            <?php }
-                                            ?>
-                                                <div class="font-weight-bold"> <?php echo $r3["lt"]; ?> LT. </div>
-                                                <div class="font-weight-bold text-muted"> <?php echo $r3["name"]; ?> </div>
-                                            </div>
-                                        <?php }?> 
-                                </div>
-                            </div>
-                    </div>
-                </div>
+                 
+             
 
                 <div class="col-sm-6 col-lg-3">
-                    <div class="card">
+                    <div class="card text-white bg-warning">
                         <div class="card-body text-center">
-                            <div class="text-muted small text-uppercase font-weight-bold">Total Fuel Issued </div>
+                            <div class="small text-uppercase font-weight-bold">Total Fuel Issued </div>
                           
                         </div>
                         <div class="card-body py-0 px-4 b-t-1">
@@ -119,7 +78,36 @@ $s4= mysqli_query($mysqli, $qry4);
                                             <?php }
                                             ?>
                                                 <div class="font-weight-bold"> <?php echo $r4["lt"]; ?> LT. </div>
-                                                <div class="font-weight-bold text-muted"> <?php echo $r4["name"]; ?> </div>
+                                                <div class="font-weight-bold "> <?php echo $r4["name"]; ?> </div>
+                                            </div>
+                                        <?php }?> 
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card text-white bg-danger">
+                        <div class="card-body text-center">
+                            <div class="small text-uppercase font-weight-bold">Fuel Issued on Today</div>
+                          
+                        </div>
+                        <div class="card-body py-0 px-4 b-t-1">
+                                <div class="row">
+                                <?php 
+                                    $sl=0;
+                                    while($r3 = mysqli_fetch_array($s3)) 
+                                        {
+                                        $sl =$sl+1;  
+                                            ?>
+                                            <?php if( $sl==1) {?>
+                                                <div class="col-6 b-r-1 py-3 text-center">
+                                            <?php } 
+                                            else { ?>
+                                                <div class='col-6 py-3 text-center'>
+                                            <?php }
+                                            ?>
+                                                <div class="font-weight-bold"> <?php echo $r3["lt"]; ?> LT. </div>
+                                                <div class="font-weight-bold "> <?php echo $r3["name"]; ?> </div>
                                             </div>
                                         <?php }?> 
                                 </div>

@@ -1,4 +1,5 @@
 <!-- Bootstrap and necessary plugins -->
+
 <script src="../layout/vendors/js/jquery.min.js"></script>
   <script src="../layout/vendors/js/popper.min.js"></script>
   <script src="../layout/vendors/js/bootstrap.min.js"></script> 
@@ -22,5 +23,17 @@
 
   <!-- Custom scripts required by this view -->
   <script src="../layout/js/views/datatables.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Zebra_datepicker/1.9.13/zebra_datepicker.min.js"></script>
+  <script>
+ $( ".datepicker" ).Zebra_DatePicker({  
+  format: 'd-m-Y',
+  show_icon: false,
+});
+
+$( ".zdatepicker" ).Zebra_DatePicker({  
+  format: 'd-m-Y',
+  show_icon: true,
+});
+</script>
 </body>
 </html>

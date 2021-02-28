@@ -33,37 +33,18 @@ if(isset($_REQUEST['id']) )
                 <div class="col-md-12"  >
                     <center>
                         <img src="ashokstambh.png" width="80px">
-                        <h1 style="font-size:80px">ON ELECTION DUTY</h1> 
-                        <div class="row">
-                            <div class="col-md-3" >
-                            </div>
-                            <div class="col-md-8 text-left">
-                                <h2 style="font-size:60px">Vehicle No : <?php echo $reg ?></h2>  
-                            </div>
-                            
-                        </div>
-                       <div class="row">
-                           <div  class="col-md-12" >
-                                <center>
-                                    <img  width="250px" src="qrvehicle.php?id=<?php echo $id ?>">   
-                                </center>
-                           </div>
-                       </div>
-                       <div class="row">
-                            <div class="col-md-3" >
-                            </div>
-                            <div class="col-md-8 text-left"> 
-                                <h2>Driver Name : <?php echo $driver ?></h2>
-                                <h2>Driver's Contact No : <?php echo $phone ?></h2>
-                            
-                            </div>
-                            
-                        </div>
+                        <h5>ASSEMBLY ELECTION, 2021 ::: GOLAGHAT ELECTION DISTRICT</h5>
+                        <h1 style="font-size:70px">ON ELECTION DUTY</h1> 
+                        <h2 style="font-size:40px">Vehicle No : <?php echo $reg ?></h2> 
+                        <img  width="250px" src="qrvehicle.php?id=<?php echo $id ?>">   
+                        <h2>Driver Name : <?php echo $driver ?></h2>
+                        <h2>Driver's Mobile : <?php echo $phone ?></h2>
+                        
                         <div class="row">
                             <div class="col-md-3" >
                             </div>
                             <div class="col-md-7 ">
-                                <h6><span class="pull-right"><b><br><br>
+                                <h6><span class="pull-right"><b><br><br><br><br>
                                     Nodal Officer, Transport Cell, <br>
                                     Assembly Election, 2021, Golaghat
                                 </b></span></h6>
