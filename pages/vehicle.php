@@ -14,9 +14,7 @@ $driver_err="";
 $driver_ph ="";
 $driver_ph_err=""; 
 $type =""; 
-$type_err="";
-$seat =""; 
-$seat_err="";
+$type_err=""; 
 $used_from =""; 
 $date_on_err="";
 $fuel="";
@@ -34,8 +32,7 @@ if(isset($_POST['Submit']))
     $owner_ph =  $_POST['owner_ph']; 
     $driver =  $_POST['driver']; 
     $driver_ph =   $_POST['driver_ph']; 
-    $type =  $_POST['type']; 
-    $seat =  $_POST['seat']; 
+    $type =  $_POST['type'];  
     $used_from =  $_POST['used_from'];  
     $fuel =  $_POST['fuel'];  
     $used_from =  $_POST['used_from'];  
@@ -64,10 +61,7 @@ if(isset($_POST['Submit']))
     elseif(empty(trim($_POST["type"]))){
         $type_err = "Please select vehicle type.";
     } 
-    
-    elseif(empty($_POST["seat"])){
-        $seat_err = "Please enter Seating capacity";
-    } 
+     
     elseif(empty($_POST["fuel"])){
         $fuel_err = "Please select Fuel Type";
     } 
@@ -88,23 +82,13 @@ if(isset($_POST['Submit']))
             {   
                 $date_from = date('Y-m-d', strtotime($used_from));
                 $reg = strtoupper($reg);
-                $sql="Insert into vehicles (owner_name,owner_phone, driver_name, driver_phone, reg_no,vehicle_type,model,seat,used_type,fuel_type,used_from) values ('$owner','$owner_ph','$driver', '$driver_ph', '$reg', '$type','$name','$seat','$used_type','$fuel','$date_from')";
+                $sql="Insert into vehicles (owner_name,owner_phone, driver_name, driver_phone, reg_no,vehicle_type,model,used_type,fuel_type,used_from) values ('$owner','$owner_ph','$driver', '$driver_ph', '$reg', '$type','$name','$used_type','$fuel','$date_from')";
                 $result=mysqli_query($mysqli,$sql);
                 if($result=="1")
-                {                   
-                    $msg="<span style='color:green'>Successfully Save.</span>";
-                    $reg = "";
-                    $name =   "";
-                    $owner =   "";
-                    $owner_ph =  "";
-                    $driver =   "";
-                    $driver_ph =   "";
-                    $type =  "";
-                    $seat =  "";
-                    $used_from =  "";
-                    $fuel =   "";
-                    $used_from =  "";  
-                    $used_type =  "";
+                { 
+                    $id = mysqli_insert_id($mysqli);               
+                    header("Location: vehicleslip.php?id=".$id);    
+                   
                 } 
                 else{
                     $msg="<span style='color:red'>Somthings went wrong!</span>";
@@ -131,6 +115,8 @@ if(isset($_POST['Submit']))
             <div class="card">
                 <div class="card-header">
                     Enter Vehicle Details
+
+                    <span class="pull-right"><a href="vehiclelist.php" class="btn btn-sm btn-warning">View List</a></span>
                 </div> 
                 <div class="card-body">
                     <form action="vehicle.php" method="POST"  name="form1" onsubmit="return validation()">
@@ -178,17 +164,7 @@ if(isset($_POST['Submit']))
                                     </select>
                                     <span class="text-danger"><?php echo $fuel_err; ?></span>
                                 </div>
-                                <div class="form-group <?php echo (!empty($used_err)) ? 'has-error' : ''; ?>">
-                                    <label>Used as</label>
-                                    <select name="used_type" tabindex="11"  class="form-control" >
-                                        <?php    $election_types = mysqli_query($mysqli, "SELECT * from election_types"); ?>
-                                        <option value="">--Select--</option>
-                                        <?php while($r= mysqli_fetch_array($election_types)) { ?>
-                                             <option value="<?php echo $r["id"]; ?>"  <?php if( $r["id"]==$used_type)  echo 'selected';?>  > <?php echo  $r["name"]; ?></option>
-                                        <?php } ?>  
-                                    </select>
-                                    <span class="text-danger"><?php echo $used_err; ?></span>
-                                </div>
+                              
                               
                             </div>
                             <div class="col-md-6">
@@ -210,11 +186,17 @@ if(isset($_POST['Submit']))
                                         <input type="text" id="driver_ph" name="driver_ph" autocomplete="off" tabindex="6" minlength="10" maxlength="10" class="form-control" onkeydown="return numeric(this, event.keyCode)" value="<?php echo $driver_ph; ?>">
                                         <span class="text-danger"><?php echo $driver_ph_err; ?></span>
                                     </div>    
-                                    <div class="form-group <?php echo (!empty($seat_err)) ? 'has-error' : ''; ?>">
-                                        <label>Seating Capacity</label>
-                                        <input type="text" name="seat" tabindex="8" maxlength="2" autocomplete="off" class="form-control" onkeydown="return numeric(this, event.keyCode)" value="<?php echo $seat; ?>">
-                                        <span class="text-danger"><?php echo $seat_err; ?></span>
-                                    </div>   
+                                    <div class="form-group <?php echo (!empty($used_err)) ? 'has-error' : ''; ?>">
+                                    <label>Used as</label>
+                                    <select name="used_type" tabindex="11"  class="form-control" >
+                                        <?php    $election_types = mysqli_query($mysqli, "SELECT * from election_types"); ?>
+                                        <option value="">--Select--</option>
+                                        <?php while($r= mysqli_fetch_array($election_types)) { ?>
+                                             <option value="<?php echo $r["id"]; ?>"  <?php if( $r["id"]==$used_type)  echo 'selected';?>  > <?php echo  $r["name"]; ?></option>
+                                        <?php } ?>  
+                                    </select>
+                                    <span class="text-danger"><?php echo $used_err; ?></span>
+                                </div>  
                                     <div class="form-group <?php echo (!empty($date_on_err)) ? 'has-error' : ''; ?>">
                                         <label>Used From</label>
                                         <div class='input-group date' class='datetimepicker1'>

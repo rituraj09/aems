@@ -129,13 +129,8 @@ if(isset($_POST['Submit']))
                         <div class="form-group row <?php echo (!empty($officer_err)) ? 'has-error' : ''; ?>">
                             <label  class="col-md-3 col-form-label">Officer Name</label>
                             <div class='col-md-5'> 
-                            <input  list="namelist" id="officer" required name="officer"  class="form-control" autocomplete="off" value="<?php echo $officer; ?>">
-                                <datalist id="namelist" >
-                                        <?php    $election_types = mysqli_query($mysqli, "SELECT * from personnel"); ?> 
-                                        <?php while($r= mysqli_fetch_array($election_types)) { ?>
-                                             <option value="<?php echo $r["name"].', '.$r["designation"].', ['.$r["phone"].']'; ?>"  > </option>
-                                        <?php } ?>  
-                                </datalist> 
+                            <input type="text" id="officer" name="officer" tabindex="4" required autocomplete="off"   class="form-control" autocomplete="off">
+                              
                             </div>    
                             <div class='col-md-4 input-group date'>
                                     <span class="text-danger"><?php echo $officer_err; ?></span>

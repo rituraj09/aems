@@ -15,5 +15,12 @@
   <script src="../layout/vendors/js/moment.min.js"></script> 
   <!-- Custom scripts required by this view -->
   <script src="../layout/js/views/main.js"></script> 
+  
+  <!-- Plugins and scripts required by this views -->
+  <script src="../layout/vendors/js/jquery.dataTables.min.js"></script>
+  <script src="../layout/vendors/js/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Custom scripts required by this view -->
+  <script src="../layout/js/views/datatables.js"></script>
 </body>
 </html>
