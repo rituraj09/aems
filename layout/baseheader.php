@@ -8,7 +8,7 @@
   <meta name="author" content="Łukasz Holeczek">
   <meta name="keyword" content=",">
   <link rel="shortcut icon" href="img/favicon.png"> 
-  <title>CoreUI Pro - Bootstrap 4 Admin Template</title>
+  <title>Golaghat Election District</title>
 
   <!-- Icons -->
   <link href="../layout/vendors/css/flag-icon.min.css" rel="stylesheet">

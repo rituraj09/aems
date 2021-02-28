@@ -27,8 +27,8 @@ if( $_SESSION['user_id']=="")
       
         <div class="dropdown-menu dropdown-menu-right">
         <div class="dropdown-item text-center"> 
-        <div class="small text-truncate">Shri Rituraj Borgohain</div>
-            <div class="small text-muted text-truncate">Dist. Manager, DITEC, Golaghat</div>
+        <div class="small text-truncate"><?php echo $_SESSION['name'] ?></div>
+            <div class="small text-muted text-truncate"><?php echo $_SESSION['desig'] ?></div>
         </div>
           <div class="dropdown-header text-center">
             <strong>Settings</strong>
@@ -52,9 +52,7 @@ if( $_SESSION['user_id']=="")
           <li class="nav-title">
             Masters
           </li>
-          <li class="nav-item">
-            <a href="colors.html" class="nav-link"><i class="icon-people"></i> Personal Master</a>
-          </li>
+         
           <li class="nav-item">
             <a href="vehicle.php" class="nav-link"><i class="fa fa-car"></i> Vehicle Master</a>
           </li> 
@@ -69,7 +67,7 @@ if( $_SESSION['user_id']=="")
             Reports
           </li> 
           <li class="nav-item nav-dropdown">
-            <a class="nav-link" href="reportsdaily.php"><i class="fa fa-file"></i> Dailty Fuel Reports</a>
+            <a class="nav-link" href="reportsdaily.php"><i class="fa fa-file"></i> Daily Fuel Reports</a>
         
           </li>   
         </ul>

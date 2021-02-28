@@ -7,7 +7,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
 }
 include("../config.php");  
 // Define variables and initialize with empty values
-$name = $phone = $password = "";
+$name = $phone = $password =  $designation="";
 $phone_err = $password_err = "";
  
 // Processing form data when form is submitted
@@ -30,7 +30,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($phone_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT id, phone,name, password, user_type FROM users WHERE status=1 and phone = ?";
+        $sql = "SELECT id, phone,name, password, user_type, designation FROM users WHERE status=1 and phone = ?";
         
         if($stmt = mysqli_prepare($mysqli, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -47,7 +47,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // Check if username exists, if yes then verify password
                 if(mysqli_stmt_num_rows($stmt) == 1){                    
                     // Bind result variables
-                    mysqli_stmt_bind_result($stmt, $id, $phone, $name, $hashed_password, $user_type);
+                    mysqli_stmt_bind_result($stmt, $id, $phone, $name, $hashed_password, $user_type,$designation);
                     if(mysqli_stmt_fetch($stmt)){ 
  
                        // if(password_verify($password, $hashed_password)){
@@ -57,7 +57,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             // Store data in session variables
                             $_SESSION["loggedin"] = true;
                             $_SESSION["user_id"] = $id;
-                            $_SESSION["name"] = $name;      
+                            $_SESSION["name"] = $name;   
+                            $_SESSION["desig"] = $designation;  
+                          
                             $_SESSION["user_type"] = $user_type;                      
                             
                             // Redirect user to welcome page
