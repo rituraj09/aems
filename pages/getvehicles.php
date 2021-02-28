@@ -8,7 +8,7 @@ if(isset($_REQUEST['id']) )
         $qry="select a.*, b.name as fuel, c.name as vtype,d.name as usedin from vehicles a inner join fuels b on a.fuel_type=b.id inner join vehicle_types c on a.vehicle_type=c.id inner join election_types d on a.used_type=d.id where a.status=1 order by a.id";
     }    
     else {
-        $qry="select a.*, b.name as fuel, c.name as vtype,d.name as usedin from vehicles a inner join fuels b on a.fuel_type=b.id inner join vehicle_types c on a.vehicle_type=c.id inner join election_types d on a.used_type=d.id  order by a.id";
+        $qry="select a.*, b.name as fuel, c.name as vtype,d.name as usedin from vehicles a inner join fuels b on a.fuel_type=b.id inner join vehicle_types c on a.vehicle_type=c.id inner join election_types d on a.used_type=d.id where a.status in (1,9)  order by a.id";
     }
 }
 $sl=0;

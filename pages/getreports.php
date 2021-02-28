@@ -43,7 +43,7 @@ if(isset($_REQUEST['rep']) )
             $a3="";
         } 
         $srch =$a1.$a2.$a3; 
-        $qry = "Select a.reg_no, sum(a.fuel_request) as fuel_tot, a.used_on, c.name as fname from vehicle_assign a inner join vehicles b on a.reg_no=b.reg_no inner join fuels c on b.fuel_type = c.id where a.status=1 ".$srch."  group by a.reg_no,a.used_on,a.fuel_type order by a.used_on";
+        $qry = "Select a.reg_no, sum(a.fuel_request) as fuel_tot, a.used_on, c.name as fname from vehicle_assign a inner join vehicles b on a.reg_no=b.reg_no inner join fuels c on b.fuel_type = c.id where  a.status in (1,9)  ".$srch."  group by a.reg_no,a.used_on,a.fuel_type order by a.used_on";
         $rslt=mysqli_query($mysqli,$qry); 
         $sl = 0;
         $tot= 0;
@@ -67,7 +67,7 @@ if(isset($_REQUEST['rep']) )
     if($_REQUEST['rep']=="2")
     {
         $reg=$_REQUEST['reg'];
-        $qry = "Select a.id as id, a.reg_no,  a.fuel_request  as fuel_tot, a.used_on, c.name as fname from vehicle_assign a inner join vehicles b on a.reg_no=b.reg_no inner join fuels c on b.fuel_type = c.id where a.status=1  and a.reg_no='".$reg."'";
+        $qry = "Select a.id as id, a.reg_no,  a.fuel_request  as fuel_tot, a.used_on, c.name as fname from vehicle_assign a inner join vehicles b on a.reg_no=b.reg_no inner join fuels c on b.fuel_type = c.id where  a.status in (1,9)   and a.reg_no='".$reg."'";
         $rslt=mysqli_query($mysqli,$qry); 
         $sl = 0;
         $tot= 0;

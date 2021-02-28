@@ -36,7 +36,7 @@ if(isset($_POST['Submit']))
         
 
         $date = date('Y-m-d', strtotime($date_on));
-        $s = "SELECT count(1) as cnt from vehicle_assign where reg_no = '$reg' and used_on= '$date' and status > 0";
+        $s = "SELECT count(1) as cnt from vehicle_assign where reg_no = '$reg' and used_on= '$date' and status =1";
         $sqlx = mysqli_query($mysqli, $s);         
         while($str = mysqli_fetch_array($sqlx))
         { 

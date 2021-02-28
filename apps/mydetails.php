@@ -18,18 +18,18 @@ else {
         <div class="col-md-6 col-sm-12">
             <div class="card">
                 <div class="card-body">
-                <form action="psdetails.php" method="get"  name="myform" >  
+                <form action="mydetails.php" method="get"  name="myform" >  
                     <div class="form-group">
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text">Enter Your Mobile No or Polling ID.</span>
+                          <span class="input-group-text">Enter Your Polling ID.</span>
                         </div>
                             <input type="text" id="psno"  name="search" value="<?php echo $search ?>"  onfocus="this.select();" class="form-control">
                             <div class="input-group-append">
                                 <input type="submit"  class="btn btn-primary" value="Search"> 
                             </div>
                             <div class="input-group-append">
-                                <a   class="btn btn-outline-secondary" href="psdetails.php" >Clear</a>
+                                <a   class="btn btn-outline-secondary" href="mydetails.php" >Clear</a>
                             </div>
                       </div>
                     </div>
@@ -39,7 +39,7 @@ else {
                 if(isset($_REQUEST['search']))
                 {
                     $id=$_REQUEST['search'];  
-                    $qry = "SELECT * from polling_station where status=1 and ps_no='".$id."'";
+                    $qry = "SELECT * from polling_station where status=1 and ps_no='".$search."'";
                     $rslt=mysqli_query($mysqli,$qry);
                     
                
@@ -72,7 +72,7 @@ else {
                     }
                     else {
                  
-                        echo "<label class='text-danger'><b>No Polling station available for this PS No.!</b></label>";
+                        echo "<label class='text-danger'><b>You are not assigning yet!!</b></label>";
                        
                     }
                 }

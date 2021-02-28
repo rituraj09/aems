@@ -40,7 +40,7 @@ if(isset($_POST['Submit']))
   
   
     if(empty($_POST["name"])){  
-        $vehicle_name_err = "Please enter Vehicle Name.";
+        $vehicle_name_err = "Please enter Model";
     } 
     elseif(empty(trim($_POST["reg"]))){
         $reg_err = "Please enter the Vehicle Registration Number.";
@@ -69,7 +69,7 @@ if(isset($_POST['Submit']))
         $date_on_err = "Please enter the date used from";
     } 
     elseif(empty($_POST["used_type"])){
-        $used_err = "Please select Used as";
+        $used_err = "Please select Used In";
     } 
    
     else
@@ -123,7 +123,7 @@ if(isset($_POST['Submit']))
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group <?php echo (!empty($vehicle_name_err)) ? 'has-error' : ''; ?>">
-                                    <label>Vehicle Name</label>
+                                    <label>Model</label>
                                     <input type="text" name="name"  tabindex="1" class="form-control" autocomplete="off" value="<?php echo $name; ?>">
                                     <span class="text-danger"><?php echo $vehicle_name_err; ?></span>
                                 </div> 
@@ -187,7 +187,7 @@ if(isset($_POST['Submit']))
                                         <span class="text-danger"><?php echo $driver_ph_err; ?></span>
                                     </div>    
                                     <div class="form-group <?php echo (!empty($used_err)) ? 'has-error' : ''; ?>">
-                                    <label>Used as</label>
+                                    <label>Used In</label>
                                     <select name="used_type" tabindex="11"  class="form-control" >
                                         <?php    $election_types = mysqli_query($mysqli, "SELECT * from election_types"); ?>
                                         <option value="">--Select--</option>

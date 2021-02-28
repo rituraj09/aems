@@ -15,7 +15,7 @@ include("../layout/header.php");
                         <tr>
                             <th>Sl. No</th>
                                 <th>Reg. No.</th>
-                                <th>Vehicle Name</th> 
+                                <th>Model</th> 
                                 <th>Driver Name</th>
                                 <th>Driver Phone</th>
                                 <th>Vehicle Type</th>
@@ -59,8 +59,8 @@ $.fn.dataTable.ext.errMode = 'none';
                 { data: "usedin", name: "usedin",orderable: true, searchable: true, visible: true },
                 { data: "fuel", name: "fuel",orderable: true, searchable: true, visible: true },
                 { data: "desig", render:function (data, type, row) {
-                    let  out = '<a href="vehicleslip.php?id='+row.id+'" class="btn btn-sm btn-success" title="View Details"><i class="fa fa-circle-o"></i></a> <a href="#" class="btn btn-sm btn-warning" title="Edit"  ><i class="fa fa-pencil"></i></a> '
-                    out +=' <a href="vehicleslip.php?id='+row.id+'" class="btn btn-sm btn-primary" title="Print Slip"><i class="fa fa-print"></i></a> <a href="vehicleslip.php?id='+row.id+'" class="btn btn-sm btn-danger" title="Discharge Vehicle"><i class="fa fa-times-rectangle-o"></i></a>'
+                    let  out = '<a href="vehicleinfo.php?id='+row.id+'" class="btn btn-sm btn-success" title="View Details"><i class="fa fa-circle-o"></i></a> <a href="#" class="btn btn-sm btn-warning" style="display:none;" title="Edit"  ><i class="fa fa-pencil"></i></a> '
+                    out +=' <a href="vehicleslip.php?id='+row.id+'" class="btn btn-sm btn-primary" title="Print Slip"><i class="fa fa-print"></i></a> <a href="vehicleslip.php?id='+row.id+'" class="btn btn-sm btn-danger" style="display:none;"  title="Discharge Vehicle"><i class="fa fa-times-rectangle-o"></i></a>'
                          
                     return out;
                     }

@@ -131,13 +131,13 @@ $s4= mysqli_query($mysqli, $qry4);
                         <tr>
                             <th>Sl. No</th>
                                 <th>Reg. No.</th>
-                                <th>Vehicle Name</th>
-                               
+                                <th>Vehicle Name</th> 
                                 <th>Driver Name</th>
                                 <th>Driver Phone</th>
                                 <th>Vehicle Type</th>
                                 <th>Used In</th>
                                 <th>Fuel</th>
+                                <th>Action</th>
                         </tr>
                         </thead>
                     </table>
@@ -172,7 +172,11 @@ $.fn.dataTable.ext.errMode = 'none';
                 { data: "vtype", name: "vtype",orderable: true, searchable: true, visible: true },
                 { data: "usedin", name: "usedin",orderable: true, searchable: true, visible: true },
                 { data: "fuel", name: "fuel",orderable: true, searchable: true, visible: true },
-                
+                { data: "desig", render:function (data, type, row) {
+                    let  out = '<a href="vehicleinfo.php?id='+row.id+'" class="btn btn-sm btn-success" title="View Details"><i class="fa fa-circle-o"></i></a> '
+                    return out;
+                    }
+                },
             ]
         });
 });
