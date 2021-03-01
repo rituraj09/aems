@@ -51,7 +51,7 @@ if( $_SESSION['user_id']=="")
           <li class="nav-item">
             <a class="nav-link" href="dashboard.php"><i class="icon-speedometer"></i> Dashboard  </a>
           </li>
-
+          <?php if( $_SESSION['user_type']=="1" || $_SESSION['user_type']=="2" ) {?>
           <li class="nav-title">
             Masters
           </li>
@@ -59,6 +59,7 @@ if( $_SESSION['user_id']=="")
           <li class="nav-item">
             <a href="vehicle.php" class="nav-link"><i class="fa fa-car"></i> Vehicle Master</a>
           </li> 
+          <?php }?>
           <li class="nav-title">
             Data Entry
           </li>

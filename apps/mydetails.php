@@ -26,13 +26,14 @@ else {
         <div class="col-md-6 col-sm-12">
             <div class="card">
                 <div class="card-body">
+                <center><h5>e-<b class="text-danger">SAH</b><span class="text-info">AYAK</span></h5></center>
                 <form action="mydetails.php" method="get"  name="myform" >  
                     <div class="form-group">
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text">Enter Your Polling ID.</span>
+                          <span class="input-group-text">Polling ID.</span>
                         </div>
-                            <input type="text" id="psno"  name="search" value="<?php echo $search ?>"  onfocus="this.select();" class="form-control">
+                            <input type="text" id="psno"  name="search"   value="<?php echo $search ?>"  onfocus="this.select();" class="form-control">
                             <div class="input-group-append">
                                 <input type="submit"  class="btn btn-primary" value="Search"> 
                             </div>

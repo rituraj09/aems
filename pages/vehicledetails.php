@@ -3,8 +3,7 @@
 include("../config.php");   
 include("../layout/baseheader.php"); 
 if(isset($_REQUEST['id']) )
-{
-    
+{    
     $id= $_REQUEST['id'];
         $reg = "";
         $driver="";
@@ -69,10 +68,7 @@ if(isset($_REQUEST['id']) )
             </div>
         </div>
     </div>
-</div>
-
-
- 
+</div> 
  <?php
 include("../layout/basefooter.php"); 
 ?>

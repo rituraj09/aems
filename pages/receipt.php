@@ -75,7 +75,7 @@ while($rsult= mysqli_fetch_array($rslt)) {
                         <td colspan="2"> 
                                 <img class="pull-left" width="80px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">                            
                                 <span style="float:right;">
-                                <br><br><br>
+                                <img src="sign.jpg" width="100px"><br>
                                 <b>Officer Sign & Seal</b></span> 
                             </td>
                     </tr>
@@ -178,7 +178,7 @@ while($rsult= mysqli_fetch_array($rslt)) {
                         <td colspan="2"> 
                                 <img class="pull-left" width="80px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">                            
                                 <span style="float:right;">
-                                <br><br><br>
+                                <img src="sign.jpg" width="100px"><br>
                                 <b>Officer Sign & Seal</b></span> 
                             </td>
                         </tr>
@@ -228,7 +228,7 @@ while($rsult= mysqli_fetch_array($rslt)) {
                             <td colspan="2"> 
                                 <img class="pull-left" width="80px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">                            
                                 <span style="float:right;">
-                                <br><br><br>
+                                <img src="sign.jpg" width="100px"><br>
                                 <b>Officer Sign & Seal</b></span> 
                             </td>
                         </tr>

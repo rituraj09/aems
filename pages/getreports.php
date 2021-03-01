@@ -76,7 +76,7 @@ if(isset($_REQUEST['rep']) )
             $data[] = [ 
                 'sl'=>$sl, 
                 'id'=>$rsult['id'], 
-                'transid'=>str_pad($rsult['id'], 4, "0", STR_PAD_LEFT),
+                'transid'=>"No.ELE/GLT/2021/FUEL/".str_pad($rsult['id'], 5, "0", STR_PAD_LEFT),
                 'date'=> date('d-m-Y', strtotime($rsult['used_on'])),
                 'reg_no'=> $rsult['reg_no'],
                 'fname'=> $rsult['fname'],

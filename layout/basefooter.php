@@ -1,6 +1,6 @@
-<!-- Bootstrap and necessary plugins -->
-
-<script src="../layout/vendors/js/jquery.min.js"></script>
+<!-- Bootstrap and necessary plugins --> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script src="../layout/vendors/js/popper.min.js"></script>
   <script src="../layout/vendors/js/bootstrap.min.js"></script> 
 
@@ -14,8 +14,7 @@
 
   <!-- Plugins and scripts required by this views --> 
   <script src="../layout/vendors/js/moment.min.js"></script> 
-  <!-- Custom scripts required by this view -->
-  <script src="../layout/js/views/main.js"></script> 
+  <!-- Custom scripts required by this view --> 
   
   <!-- Plugins and scripts required by this views -->
   <script src="../layout/vendors/js/jquery.dataTables.min.js"></script>

@@ -44,7 +44,8 @@ if(isset($_REQUEST['id']) )
                             <div class="col-md-3" >
                             </div>
                             <div class="col-md-7 ">
-                                <h6><span class="pull-right"><b><br><br><br><br>
+                                <h6><span class="pull-right"><b><br> 
+                                <img src="sign.jpg" width="120px"><br>
                                     Nodal Officer, Transport Cell, <br>
                                     Assembly Election, 2021, Golaghat
                                 </b></span></h6>
