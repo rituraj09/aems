@@ -6,8 +6,9 @@ include("../layout/header.php");
  
 if(isset($_REQUEST['id']))
 {         
+    $user="";
 $id=$_REQUEST['id']; 
-$qry = "SELECT a.*,a.id as vid, c.name as fname   from vehicle_assign a inner join vehicles b on a.reg_no=b.reg_no  inner join fuels c on b.fuel_type=c.id  where a.status=1 and a.id=".$id;
+$qry = "SELECT a.*,a.id as vid, c.name as fname,a.cby   from vehicle_assign a inner join vehicles b on a.reg_no=b.reg_no  inner join fuels c on b.fuel_type=c.id  where a.status=1 and a.id=".$id;
 $rslt=mysqli_query($mysqli,$qry); 
 while($rsult= mysqli_fetch_array($rslt)) {  
     $date = date('d-m-Y', strtotime($rsult['used_on']));
@@ -16,6 +17,11 @@ while($rsult= mysqli_fetch_array($rslt)) {
     $officer=$rsult['person_name']; 
     $fuelqty=$rsult['fuel_request']; 
     $fname=$rsult['fname']; 
+    $q="select * from users where id=".$rsult['cby'];
+    $rst=mysqli_query($mysqli,$q); 
+    while($r= mysqli_fetch_array($rst)) {  
+        $user=$r['name']; 
+    }
 }  
 ?>
  <div class="container-fluid">
@@ -73,11 +79,20 @@ while($rsult= mysqli_fetch_array($rslt)) {
                     
                     <tr> 
                         <td colspan="2"> 
-                                <img class="pull-left" width="80px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">                            
-                                <span style="float:right;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12"><img class="pull-left" width="80px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">  </div> 
+                                        <div class="col-md-12"> <span  style="float:left;"> Prepared By  <?php echo $user ?>      </span>   </div> 
+                                    </div> 
+                                </div> 
+                                <div class="col-md-6">  
+                                <span class=" pull-right" >
                                 <img src="sign.jpg" width="100px"><br>
-                                <b>Officer Sign & Seal</b></span> 
-                            </td>
+                                <b>Officer Sign & Seal</b></span>
+                                </div> 
+                                </div>
+                        </td>
                     </tr>
                 </table>
                 </div>
@@ -176,11 +191,20 @@ while($rsult= mysqli_fetch_array($rslt)) {
                         </tr> 
                         <tr> 
                         <td colspan="2"> 
-                                <img class="pull-left" width="80px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">                            
-                                <span style="float:right;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12"><img class="pull-left" width="80px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">  </div> 
+                                        <div class="col-md-12"> <span  style="float:left;"> Prepared By  <?php echo $user ?>      </span>   </div> 
+                                    </div> 
+                                </div> 
+                                <div class="col-md-6">  
+                                <span class=" pull-right" >
                                 <img src="sign.jpg" width="100px"><br>
-                                <b>Officer Sign & Seal</b></span> 
-                            </td>
+                                <b>Officer Sign & Seal</b></span>
+                                </div> 
+                                </div>
+                        </td>
                         </tr>
                     </table>                  
                 </div>
@@ -225,12 +249,21 @@ while($rsult= mysqli_fetch_array($rslt)) {
                             </td>
                         </tr> 
                         <tr> 
-                            <td colspan="2"> 
-                                <img class="pull-left" width="80px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">                            
-                                <span style="float:right;">
-                                <img src="sign.jpg" width="100px"><br>
-                                <b>Officer Sign & Seal</b></span> 
-                            </td>
+                        <td colspan="2"> 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12"><img class="pull-left" width="80px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">  </div> 
+                                    <div class="col-md-12"> <span  style="float:left;"> Prepared By  <?php echo $user ?>      </span>   </div> 
+                                </div> 
+                            </div> 
+                            <div class="col-md-6">  
+                            <span class=" pull-right" >
+                            <img src="sign.jpg" width="100px"><br>
+                            <b>Officer Sign & Seal</b></span>
+                            </div> 
+                            </div>
+                    </td>
                         </tr>
                 </table>
             </div> 

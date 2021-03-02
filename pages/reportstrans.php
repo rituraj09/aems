@@ -107,7 +107,7 @@ function getrep(qs)
             { data: "fname", name: "fname",orderable: true, searchable: true, visible: true },
             { data: "fuel_tot", name: "fuel_tot",orderable: true, searchable: true, visible: true }, 
             { data: "fuel_tot", render:function (data, type, row) {
-                    let  out = '<a href="receipt.php?id='+row.id+'" class="btn btn-sm btn-success" title="View Details"><i class="fa fa-circle"></i></a>'
+                    let  out = '<a href="receipt.php?id='+row.id+'" class="btn btn-sm btn-info" title="View Details"><i class="fa fa-print"></i></a>'
                      return out;
                     }
                 },
