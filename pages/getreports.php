@@ -61,13 +61,10 @@ if(isset($_REQUEST['rep']) )
         } 
         echo json_encode(array('data' => $data, 'tot' => $tot));
     }
-
-
-
     if($_REQUEST['rep']=="2")
     {
         $reg=$_REQUEST['reg'];
-        $qry = "Select a.id as id, a.reg_no,  a.fuel_request  as fuel_tot, a.used_on, c.name as fname from vehicle_assign a inner join vehicles b on a.reg_no=b.reg_no inner join fuels c on b.fuel_type = c.id where  a.status in (1,9)   and a.reg_no='".$reg."'";
+        $qry = "Select a.id as id, a.reg_no, a.cby, a.fuel_request  as fuel_tot, a.used_on, c.name as fname, u.name as user from vehicle_assign a inner join vehicles b on a.reg_no=b.reg_no inner join fuels c on b.fuel_type = c.id inner join users u on a.cby=u.id where  a.status in (1,9)   and a.reg_no='".$reg."'";
         $rslt=mysqli_query($mysqli,$qry); 
         $sl = 0;
         $tot= 0;
@@ -80,14 +77,12 @@ if(isset($_REQUEST['rep']) )
                 'date'=> date('d-m-Y', strtotime($rsult['used_on'])),
                 'reg_no'=> $rsult['reg_no'],
                 'fname'=> $rsult['fname'],
+                'cby' => $rsult['user'],
                 'fuel_tot'=> $rsult['fuel_tot'], 
             ];
             $tot=    $tot+ $rsult['fuel_tot'];
-
         } 
         echo json_encode(array('data' => $data, 'tot' => $tot));
     }
 }
- 
-
 ?>

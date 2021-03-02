@@ -1,4 +1,3 @@
-
 <?php
 include("../config.php");   
 include("../layout/header.php");  
@@ -51,6 +50,9 @@ $rslt=mysqli_query($mysqli,$qry);
                                         <th width="130px">
                                             Fuel Qty (in Lt).
                                         </th>
+                                        <th>
+                                            Issued By
+                                        </th>
                                         <th width="80px">
                                             Action
                                         </th>
@@ -59,6 +61,7 @@ $rslt=mysqli_query($mysqli,$qry);
                                 <tfoot>
                                     <tr>
                                         <th colspan="5" style="text-align:right">Page Total:<br>All Total:</th>
+                                        <th ></th>
                                         <th ></th>
                                         <th ></th>
                                     </tr>
@@ -106,6 +109,7 @@ function getrep(qs)
             { data: "reg_no", name: "reg_no",orderable: true, searchable: true, visible: true },
             { data: "fname", name: "fname",orderable: true, searchable: true, visible: true },
             { data: "fuel_tot", name: "fuel_tot",orderable: true, searchable: true, visible: true }, 
+            { data: "cby", name: "cby",orderable: true, searchable: true, visible: true }, 
             { data: "fuel_tot", render:function (data, type, row) {
                     let  out = '<a href="receipt.php?id='+row.id+'" class="btn btn-sm btn-info" title="View Details"><i class="fa fa-print"></i></a>'
                      return out;
