@@ -66,6 +66,7 @@ $s4= mysqli_query($mysqli, $qry4);
                                 <div class="row">
                                 <?php 
                                     $sl=0;
+                                if ($s4->num_rows > 0){
                                     while($r4 = mysqli_fetch_array($s4)) 
                                         {
                                         $sl =$sl+1;  
@@ -80,7 +81,15 @@ $s4= mysqli_query($mysqli, $qry4);
                                                 <div class="font-weight-bold"> <?php echo $r4["lt"]; ?> LT. </div>
                                                 <div class="font-weight-bold "> <?php echo $r4["name"]; ?> </div>
                                             </div>
-                                        <?php }?> 
+                                        <?php }
+                                }
+                                                else
+                                                {?> 
+                                                  <div class='col-12  text-center'>
+                                                  <div class="font-weight-bold"><span style="visibility:hidden">Hello</span> </div>  
+                                                  <div class="font-weight-bold"><span style="visibility:hidden">Hello</span> </div> 
+                                                </div>
+                                                <?php } ?>
                                 </div>
                             </div>
                     </div>

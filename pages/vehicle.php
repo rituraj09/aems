@@ -1,6 +1,10 @@
 <?php
 include("../config.php"); 
 include("../layout/header.php"); 
+if( $_SESSION['user_type']=="1" || $_SESSION['user_type']=="2" ) 
+{
+
+ 
 $name = "";
 $vehicle_name_err="";
 $reg =""; 
@@ -231,6 +235,7 @@ if(isset($_POST['Submit']))
 </div>
 
 <?php 
+}
 include("../layout/footerhead.php"); 
  ?>
  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>

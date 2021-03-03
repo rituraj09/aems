@@ -1,6 +1,28 @@
 <?php
 include("../config.php"); 
 include("../layout/header.php"); 
+
+function get_client_ip()
+ {
+      $ipaddress = '';
+      if (getenv('HTTP_CLIENT_IP'))
+          $ipaddress = getenv('HTTP_CLIENT_IP');
+      else if(getenv('HTTP_X_FORWARDED_FOR'))
+          $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+      else if(getenv('HTTP_X_FORWARDED'))
+          $ipaddress = getenv('HTTP_X_FORWARDED');
+      else if(getenv('HTTP_FORWARDED_FOR'))
+          $ipaddress = getenv('HTTP_FORWARDED_FOR');
+      else if(getenv('HTTP_FORWARDED'))
+          $ipaddress = getenv('HTTP_FORWARDED');
+      else if(getenv('REMOTE_ADDR'))
+          $ipaddress = getenv('REMOTE_ADDR');
+      else
+          $ipaddress = 'UNKNOWN';
+
+      return $ipaddress;
+ }
+$ip = get_client_ip();
 $officer = "";
 $officer_err="";
 $reg =""; 
@@ -34,49 +56,54 @@ if(isset($_POST['Submit']))
     else
     {  
         
-
-        $date = date('Y-m-d', strtotime($date_on));
-        $s = "SELECT count(1) as cnt from vehicle_assign where reg_no = '$reg' and used_on= '$date' and status =1";
-        $sqlx = mysqli_query($mysqli, $s);         
-        while($str = mysqli_fetch_array($sqlx))
-        { 
-           // if((int)$str["cnt"]<1)
-            //{    
-                
-                $sql="Insert into vehicle_assign (reg_no,person_name,used_on,fuel_request,cby,status) values ('$reg','$officer','$date', '$fuelqty', '$cby',1)";
-                $result=mysqli_query($mysqli,$sql);
-                if($result=="1")
-                {      
-                    $id = mysqli_insert_id($mysqli);        
-                    for($i=0; $i < count($_POST['distfrom']); $i++) {
-                        $distfrom = addslashes($_POST['distfrom'][$i]);
-                        $distto = addslashes($_POST['distto'][$i]);
-                        $dist = addslashes($_POST['dist'][$i]); 
- 
-                        $sql="Insert into vehicle_trans(v_assigned_id, used_on,reg_no,loc_from,loc_to,distance) values('$id','$date','$reg','$distfrom','$distto','$dist')";
-                        $rslt=mysqli_query($mysqli,$sql);
-                        if($rslt!="1") 
-                        {
-                            $ok=="0";
-                        } 
-                    }      
-                    if($ok==1) { 
-                        header("Location: receipt.php?id=".$id);
-                    }
+        $s1 = "SELECT count(1) as cnt from vehicles where reg_no = '$reg'";
+        $sql1 = mysqli_query($mysqli, $s1);         
+        if ($sql1->num_rows > 0)
+        {
+            $date = date('Y-m-d', strtotime($date_on));
+            $s = "SELECT count(1) as cnt from vehicle_assign where reg_no = '$reg' and used_on= '$date' and status =1";
+            $sqlx = mysqli_query($mysqli, $s);         
+            while($str = mysqli_fetch_array($sqlx))
+            { 
+               // if((int)$str["cnt"]<1)
+                //{    
+                    
+                     $sql="Insert into vehicle_assign (reg_no,person_name,used_on,fuel_request,cby,status,ip) values ('$reg','$officer','$date', '$fuelqty', '$cby',1,'$ip')";
+               		 $result=mysqli_query($mysqli,$sql);
+                    if($result=="1")
+                    {      
+                        $id = mysqli_insert_id($mysqli);        
+                        for($i=0; $i < count($_POST['distfrom']); $i++) {
+                            $distfrom = addslashes($_POST['distfrom'][$i]);
+                            $distto = addslashes($_POST['distto'][$i]);
+                            $dist = addslashes($_POST['dist'][$i]); 
+     
+                            $sql="Insert into vehicle_trans(v_assigned_id, used_on,reg_no,loc_from,loc_to,distance) values('$id','$date','$reg','$distfrom','$distto','$dist')";
+                            $rslt=mysqli_query($mysqli,$sql);
+                            if($rslt!="1") 
+                            {
+                                $ok=="0";
+                            } 
+                        }      
+                        if($ok==1) { 
+                            header("Location: receipt.php?id=".$id);
+                        }
+                        else{
+                            $msg="<span style='color:red'>Error in Trans DB!</span>";
+                        }
+                       
+                    } 
                     else{
-                        $msg="<span style='color:red'>Error in Trans DB!</span>";
+                        $msg="<span style='color:red'>Somthings went wrong!</span>";
                     }
-                   
-                } 
-                else{
-                    $msg="<span style='color:red'>Somthings went wrong!</span>";
-                }
-           // }
-           // else
-           // {
-            //    $msg = "Fuel has been already given.";
-          //  }
-        }            
+               // }
+               // else
+               // {
+                //    $msg = "Fuel has been already given.";
+              //  }
+            }   
+        }
+                 
     }
           
 } 
@@ -100,7 +127,7 @@ if(isset($_POST['Submit']))
                             <label class="col-md-3 col-form-label">Date</label>
                             <div class='col-md-5 input-group date'>
                                 <input type="text" name="date_on" autocomplete="off" id="date_on"   required
-                                class="form-control datepicker date-format"   placeholder="dd-mm-yyyy"  value="<?php echo $date_on; ?>"
+                                class="form-control tdatepicker date-format"   placeholder="dd-mm-yyyy"  value="<?php echo $date_on; ?>"
                                 onblur="ValidateDate(this, event.keyCode);" onkeydown="return DateFormat(this, event.keyCode)" maxlength="10" onfocus="this.select();">
                                     <span class="input-group-text">
                                             <span class="icon-calendar"></span>
@@ -123,6 +150,7 @@ if(isset($_POST['Submit']))
                                 </datalist> 
                             </div>    
                             <div class='col-md-4 input-group date'>
+                                    <span id="alrt" class="text-danger"></span>
                                     <span class="text-danger"><?php echo $reg_err; ?></span>
                             </div>
                         </div> 
@@ -364,25 +392,52 @@ function deleteRow(txt) {
 
 function getdetails() {     
     var val= $('#reg').val();    
-    $.ajax({   
-        dataType:'json',  
-        data: {'op': "1", 'reg': val},
-        type: "GET",
-        url: "getreg.php", 
-        error: function (resp) {
-            $('#driver').html("");   
-            $('#driver_phone').html("");   
-            $('#name').html("");   
-            $('#fuel').html("");  
-            $('#reg').val("");
-        },                
-        success: function(resp){     
-            $('#driver').html(resp.driver);   
-            $('#driver_phone').html(resp.driver_phone);   
-            $('#name').html(resp.name);   
-            $('#fuel').html(resp.fuel);              
-        }, 
-    });
+    var date= $('#date_on').val();   
+    if(date=="")
+    {
+        alert("Please Insert Date!");
+        $('#date_on').focus();
+    }
+    else
+    {
+        $.ajax({   
+            dataType:'json',  
+            data: {'op': "1", 'reg': val, 'date': date},
+            type: "GET",
+            url: "getreg.php", 
+            error: function (resp) {
+                debugger;
+                $('#driver').html("");   
+                $('#driver_phone').html("");   
+                $('#name').html("");   
+                $('#fuel').html("");  
+                $('#reg').val("");
+                $('#alrt').html("");
+            },                
+            success: function(resp){    
+                debugger; 
+               
+                $('#driver').html(resp.driver);   
+                $('#driver_phone').html(resp.driver_phone);   
+                $('#name').html(resp.name);   
+                $('#fuel').html(resp.fuel);  
+                if(resp.cnt!="0") 
+                {
+                    $('#alrt').html("This Vehicle already issued Fuel on "+date+ " for "+resp.cnt+ " time." );
+                }
+                else
+                {
+                    $('#alrt').html("");
+                }
+                if( resp.name=="")
+                { 
+                    $('#reg').val("");
+                    $('#alrt').html(""); 
+                }
+                          
+            }, 
+        });
+    }
 } 
  
 </script>

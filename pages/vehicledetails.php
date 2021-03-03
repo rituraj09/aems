@@ -1,9 +1,9 @@
-
  <?php
 include("../config.php");   
 include("../layout/baseheader.php"); 
 if(isset($_REQUEST['id']) )
-{    
+{
+    
     $id= $_REQUEST['id'];
         $reg = "";
         $driver="";
@@ -52,23 +52,16 @@ if(isset($_REQUEST['id']) )
                             </div>
                             
                         </div>
-                        <div class="row">
-                            <div class="col-md-3" >
-                            </div>
-                            <div class="col-md-7 ">
-                                <h6><span class="pull-right"><b><br><br>
-                                    Nodal Officer, Transport Cell, <br>
-                                    Assembly Election, 2021, Golaghat
-                                </b></span></h6>
-                            </div>
-                           
-                        </div>
+                         
                     </center>
                 </div>
             </div>
         </div>
     </div>
-</div> 
+</div>
+
+
+ 
  <?php
 include("../layout/basefooter.php"); 
 ?>
