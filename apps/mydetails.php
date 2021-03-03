@@ -31,7 +31,7 @@ include("../layout/baseheader.php");
             <div class="card"> 
                 <a href="polling.php" style="text-decoration:none;">
                     <div class="card-body bg-danger text-center"> 
-                        <cneter><h1>POLL DAY INFO</h1></cneter> 
+                        <cneter><h1>KNOW YOUR PS</h1></cneter> 
                     </div>
                 </a>
             </div>

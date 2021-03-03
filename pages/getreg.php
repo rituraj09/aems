@@ -6,6 +6,11 @@ if($_GET['op']=="1")
      $date = date('Y-m-d', strtotime($_GET['date'])); 
      $cnt=0;
      $vehicles = mysqli_query($mysqli, "SELECT a.*, b.name as fname from vehicles a inner join fuels b on a.fuel_type=b.id where a.reg_no='".$reg."'"); 
+     $name ="";
+     $driver="";
+     $driver_phone ="";
+     $fuel ="";
+     $cnt = "0";
      while($r= mysqli_fetch_array($vehicles)) {
           $name = $r["model"];
           $driver = $r["driver_name"];

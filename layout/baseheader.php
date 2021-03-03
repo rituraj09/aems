@@ -20,7 +20,8 @@
 
   <!-- Styles required by this views -->
   <link href="../layout/vendors/css/daterangepicker.min.css" rel="stylesheet">
-  <link href="../layout/vendors/css/gauge.min.css" rel="stylesheet"> 
+  <link href="../layout/vendors/css/gauge.min.css" rel="stylesheet">
+  <link href="../layout/vendors/css/toastr.min.css" rel="stylesheet"> 
   <!-- Styles required by this views -->
   <link href="../layout/vendors/css/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/Zebra_datepicker/1.9.13/css/default/zebra_datepicker.min.css" rel="stylesheet" rel="stylesheet">

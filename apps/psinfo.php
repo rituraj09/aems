@@ -75,11 +75,11 @@ else {
                                 $zonal= $r["zonal_name"];
                                 $zonalofficer=$r["zonal_officer"];
                                 $zdesig=$r["zdesig"];
-                                $zphone=$r["zphone"] ;
+                                $zphone=$r["zphone"];
                                 $sector= $r["sector_name"];
                                 $sectorofficer=$r["sector_officer"];
                                 $sdesig=$r["sdesig"];
-                                $sphone=$r["sphone"] ;
+                                $sphone=$r["sphone"];
                             }
                         }
                     
@@ -144,7 +144,7 @@ else {
                                 <b>OFFICER NAME : </b> <?php echo $zonalofficer ;?>
                                 </td>  
                                 <td>
-                                <b>DESIGNATION & PHONE NO. : </b> <?php echo $zdesig ;?>, Cont :  <?php echo $zphone ;?>
+                                <b>DESIGNATION & PHONE NO. : </b> <?php echo $zdesig ;?>, Cont : <?php echo $zphone ;?>
                                 </td> 
                             </tr>
                             <tr>

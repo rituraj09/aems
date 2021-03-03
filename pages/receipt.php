@@ -55,7 +55,7 @@ while($rsult= mysqli_fetch_array($rslt)) {
                     <tr>
                         <td colspan="2">
                         <b>To<br> <span style="margin-left:20px">Jabrilal Pooshraj & CO., Golaghat</span></b><br>
-                        <span style="margin-left:20px">Please issued thr following products on Credit/ Debit A/c Transport Cell, Assembly Election, 2021, Golaghat</span>
+                        <span style="margin-left:20px">Please issued the following products on Credit/ Debit A/c Transport Cell, Assembly Election, 2021, Golaghat</span>
                         </td> 
                     </tr>
                     <tr> 
@@ -170,7 +170,7 @@ while($rsult= mysqli_fetch_array($rslt)) {
                         <tr>
                             <td colspan="2">
                             <b>To<br> <span style="margin-left:20px">Jabrilal Pooshraj & CO., Golaghat</span></b><br>
-                            <span style="margin-left:20px">Please issued thr following products on Credit/ Debit A/c Transport Cell, Assembly Election, 2021, Golaghat</span>
+                            <span style="margin-left:20px">Please issued the following products on Credit/ Debit A/c Transport Cell, Assembly Election, 2021, Golaghat</span>
                             </td> 
                         </tr>
                         <tr> 
@@ -233,7 +233,7 @@ while($rsult= mysqli_fetch_array($rslt)) {
                         <tr>
                             <td colspan="2">
                             <b>To<br> <span style="margin-left:20px">Jabrilal Pooshraj & CO., Golaghat</span></b><br>
-                            <span style="margin-left:20px">Please issued thr following products on Credit/ Debit A/c Transport Cell, Assembly Election, 2021, Golaghat</span>
+                            <span style="margin-left:20px">Please issued the following products on Credit/ Debit A/c Transport Cell, Assembly Election, 2021, Golaghat</span>
                             </td> 
                         </tr>
                         <tr> 

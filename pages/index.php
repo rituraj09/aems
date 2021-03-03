@@ -1,5 +1,6 @@
 <?php
 session_start();
+ 
 include("../layout/baseheader.php"); 
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     header("location: dashboard.php");
