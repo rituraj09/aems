@@ -5,6 +5,7 @@ if( $_SESSION['user_id']=="")
 {        
  header('Location: ../index.php');
 }
+ob_start();
 ?>
 
  
@@ -34,10 +35,10 @@ if( $_SESSION['user_id']=="")
             <strong>Settings</strong>
           </div> 
           <?php if( $_SESSION['user_type']=="1") {?>
-            <a class="dropdown-item" href="user.php"><i class="fa fa-user"></i> Create User</a> 
+            <a class="dropdown-item" href="../pages/user.php"><i class="fa fa-user"></i> Create User</a> 
           <?php }?>
         
-          <a class="dropdown-item" href="logout.php"><i class="fa fa-lock"></i> Logout</a>
+          <a class="dropdown-item" href="../pages/logout.php"><i class="fa fa-lock"></i> Logout</a>
         </div>
       </li>
       
@@ -49,7 +50,7 @@ if( $_SESSION['user_id']=="")
       <nav class="sidebar-nav">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="dashboard.php"><i class="icon-speedometer"></i> Dashboard  </a>
+            <a class="nav-link" href="../pages/dashboard.php"><i class="icon-speedometer"></i> Dashboard  </a>
           </li>
 
          <?php if( $_SESSION['user_type']=="1" || $_SESSION['user_type']=="2" ) {?>
@@ -58,23 +59,35 @@ if( $_SESSION['user_id']=="")
           </li>
          
           <li class="nav-item">
-            <a href="vehicle.php" class="nav-link"><i class="fa fa-car"></i> Vehicle Master</a>
+            <a href="../pages/vehicle.php" class="nav-link"><i class="fa fa-car"></i> Vehicle Master</a>
           </li> 
           <?php }?>
           <li class="nav-title">
             Data Entry
           </li>
           <li class="nav-item nav-dropdown">
-            <a class="nav-link" href="logsheet.php"><i class="fa fa-calendar-plus-o"></i> Vehicle Log Sheet</a>
+            <a class="nav-link" href="../pages/logsheet.php"><i class="fa fa-calendar-plus-o"></i> Vehicle Log Sheet</a>
         
           </li>   
           <li class="nav-title">
             Reports
           </li> 
           <li class="nav-item nav-dropdown">
-            <a class="nav-link" href="reportsdaily.php"><i class="fa fa-file"></i> Daily Fuel Reports</a>
-        
-          </li>   
+            <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-file"></i> All reports</a>
+            <ul class="nav-dropdown-items">
+              <li class="nav-item">
+                <a class="nav-link"href="../pages/reportsdaily.php"><i class="icon-cursor"></i> Daily Fuel Reports</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../reports/vehiclelogs.php"><i class="icon-cursor"></i> log sheets</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../reports/vehiclerep.php"><i class="icon-cursor"></i> Vehicle Report</a>
+              </li>
+              
+            </ul>
+          </li>
+          
         </ul>
       </nav>
       <button class="sidebar-minimizer brand-minimizer" type="button"></button>

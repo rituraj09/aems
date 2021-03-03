@@ -27,8 +27,7 @@
  $( ".datepicker" ).Zebra_DatePicker({  
   format: 'd-m-Y',
   show_icon: false,
-});
-debugger; 
+});  
 var today = new Date();
 var dd = today.getDate(); 
 var mm = today.getMonth()+1; 

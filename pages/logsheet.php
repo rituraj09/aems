@@ -429,7 +429,8 @@ function getdetails() {
                 if( resp.name=="")
                 { 
                     $('#reg').val("");
-                    $('#alrt').html(""); 
+                    $('#alrt').html("");
+                   
                 }
                           
             }, 

@@ -1,4 +1,3 @@
-
  <?php
 include("../config.php");   
 include("../layout/header.php"); 
@@ -39,7 +38,7 @@ if(isset($_REQUEST['id']) )
                         <img  width="250px" src="qrvehicle.php?id=<?php echo $id ?>">   
                         <h2>Officer Name : <?php echo $driver ?></h2>
                         <h2>Officer's Mobile : <?php echo $phone ?></h2>
-                        <h2>Designation : ADIO, NIC, Golaghat</h2>
+                        <h2>Designation : District Manager, Information Technology, <br>Golaghat</h2>
                         
                         <div class="row">
                             <div class="col-md-3" >

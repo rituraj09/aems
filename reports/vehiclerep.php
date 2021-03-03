@@ -30,7 +30,7 @@ $rslt1 =mysqli_query($mysqli,$qry1);
                                     Used In
                                 </th>
                                 <th>
-                                    Total Numbers
+                                Total No. of Vehicles
                                 </th> 
                             </tr>
                         </thead>
@@ -89,7 +89,7 @@ $rslt1 =mysqli_query($mysqli,$qry1);
                                     Vehicle Type
                                 </th>
                                 <th>
-                                    Total Numbers
+                                    Total No. of Vehicles
                                 </th> 
                             </tr>
                         </thead>
