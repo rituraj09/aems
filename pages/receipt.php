@@ -38,11 +38,11 @@ while($rsult= mysqli_fetch_array($rslt)) {
                 <div class="col-md-7"  style=" width:60%">
                 <table class="table table-bordered table-sm" width="100%" >
                     <tr>
-                        <td colspan="2" style="text-align:center; line-height:6px;">
+                        <td colspan="2" style="text-align:center; line-height:12px;">
                         
-                            <h6>Govt. of Assam</h6>
-                            <h6>Office of the Deputy Commissioner, Golaghat</h5>
-                            <h6>Fuel Receipt</h6>
+                            <b style="font-size:15px;">Govt. of Assam</b><br>
+                            <b style="font-size:15px;">Office of the Deputy Commissioner, Golaghat</b><br>
+                            <b style="font-size:11px;">Fuel Receipt</b><br>
                             <b>Original</b>
                         
                         </td>
@@ -50,6 +50,12 @@ while($rsult= mysqli_fetch_array($rslt)) {
                     <tr>
                         <td colspan="2">
                         <b>No. ELE/GLT/2021/FUEL/<?php echo str_pad($v_id, 5, '0', STR_PAD_LEFT);  ?></b>
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                        <b>To<br> <span style="margin-left:20px">Jabrilal Pooshraj & CO., Golaghat</span></b><br>
+                        <span style="margin-left:20px">Please issued thr following products on Credit/ Debit A/c Transport Cell, Assembly Election, 2021, Golaghat</span>
                         </td> 
                     </tr>
                     <tr> 
@@ -76,24 +82,18 @@ while($rsult= mysqli_fetch_array($rslt)) {
                         <b> <?php echo $fuelqty ?> Lt. <?php echo $fname ?></b>   
                         </td>
                     </tr>
-                    
                     <tr> 
                         <td colspan="2"> 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-12"><img class="pull-left" width="80px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">  </div> 
-                                        <div class="col-md-12"> <span  style="float:left;"> Prepared By  <?php echo $user ?>      </span>   </div> 
-                                    </div> 
-                                </div> 
-                                <div class="col-md-6">  
-                                <span class=" pull-right" >
-                                <img src="sign.jpg" width="100px"><br>
-                                <b>Officer Sign & Seal</b></span>
-                                </div> 
-                                </div>
+                        <span class="pull-left" >
+                        <img  width="60px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">   
+                        <br>
+                        Prepared By  <?php echo $user ?>
+                        </span>
+                                <span class="pull-right" >
+                                <img src="sign.jpg" width="80px"><br>
+                                <b>Officer Sign & Seal</b></span> 
                         </td>
-                    </tr>
+                    </tr> 
                 </table>
                 </div>
                 <div class="col-md-5" style=" width:40%">
@@ -153,16 +153,24 @@ while($rsult= mysqli_fetch_array($rslt)) {
                 <div   style="font-size:10px !important;">                 
                     <table  class="table table-bordered table-sm" width="100%" >
                         <tr>
-                            <td colspan="2" style="text-align:center; line-height:6px; ">
-                                <h6>Govt. of Assam</h6>
-                                <h6>Office of the Deputy Commissioner, Golaghat</h5>
-                                <h6>Fuel Receipt</h6>
-                                <b>Duplicate</b>                        
+                            <td colspan="2" style="text-align:center; line-height:12px;">
+                            
+                                <b style="font-size:15px;">Govt. of Assam</b><br>
+                                <b style="font-size:15px;">Office of the Deputy Commissioner, Golaghat</b><br>
+                                <b style="font-size:11px;">Fuel Receipt</b><br>
+                                <b>Duplicate</b>
+                            
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
                             <b>No. ELE/GLT/2021/FUEL/<?php echo str_pad($v_id, 5, '0', STR_PAD_LEFT);  ?></b>
+                            </td> 
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                            <b>To<br> <span style="margin-left:20px">Jabrilal Pooshraj & CO., Golaghat</span></b><br>
+                            <span style="margin-left:20px">Please issued thr following products on Credit/ Debit A/c Transport Cell, Assembly Election, 2021, Golaghat</span>
                             </td> 
                         </tr>
                         <tr> 
@@ -190,38 +198,42 @@ while($rsult= mysqli_fetch_array($rslt)) {
                             </td>
                         </tr> 
                         <tr> 
-                        <td colspan="2"> 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-12"><img class="pull-left" width="80px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">  </div> 
-                                        <div class="col-md-12"> <span  style="float:left;"> Prepared By  <?php echo $user ?>      </span>   </div> 
-                                    </div> 
-                                </div> 
-                                <div class="col-md-6">  
-                                <span class=" pull-right" >
-                                <img src="sign.jpg" width="100px"><br>
-                                <b>Officer Sign & Seal</b></span>
-                                </div> 
-                                </div>
-                        </td>
+                            <td colspan="2"> 
+                            <span class="pull-left" >
+                            <img  width="60px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">   
+                            <br>
+                            Prepared By  <?php echo $user ?>
+                            </span>
+                                    <span class="pull-right" >
+                                    <img src="sign.jpg" width="80px"><br>
+                                    <b>Officer Sign & Seal</b></span> 
+                            </td>
                         </tr>
+                     
                     </table>                  
                 </div>
                 <span style="width:100%; border-top:1px dashed black;"></span><br>
             <div  style="font-size:10px !important;"> 
                 <table  class="table table-bordered table-sm"  width="100%">
-                    <tr>
-                        <td colspan="2" style="text-align:center; line-height:6px;">
-                        <h6>Govt. of Assam</h6>
-                        <h6>Office of the Deputy Commissioner, Golaghat</h5>
-                        <h6>Fuel Receipt</h6>
-                        <b>Triplicate</b>
+                <tr>
+                        <td colspan="2" style="text-align:center; line-height:12px;">
+                        
+                            <b style="font-size:15px;">Govt. of Assam</b><br>
+                            <b style="font-size:15px;">Office of the Deputy Commissioner, Golaghat</b><br>
+                            <b style="font-size:11px;">Fuel Receipt</b><br>
+                            <b>Triplicate</b>
+                        
                         </td>
                     </tr>
                         <tr>
                             <td colspan="2">
                             <b>No. ELE/GLT/2021/FUEL/<?php echo str_pad($v_id, 5, '0', STR_PAD_LEFT);  ?></b>
+                            </td> 
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                            <b>To<br> <span style="margin-left:20px">Jabrilal Pooshraj & CO., Golaghat</span></b><br>
+                            <span style="margin-left:20px">Please issued thr following products on Credit/ Debit A/c Transport Cell, Assembly Election, 2021, Golaghat</span>
                             </td> 
                         </tr>
                         <tr> 
@@ -249,22 +261,18 @@ while($rsult= mysqli_fetch_array($rslt)) {
                             </td>
                         </tr> 
                         <tr> 
-                        <td colspan="2"> 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-12"><img class="pull-left" width="80px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">  </div> 
-                                    <div class="col-md-12"> <span  style="float:left;"> Prepared By  <?php echo $user ?>      </span>   </div> 
-                                </div> 
-                            </div> 
-                            <div class="col-md-6">  
-                            <span class=" pull-right" >
-                            <img src="sign.jpg" width="100px"><br>
-                            <b>Officer Sign & Seal</b></span>
-                            </div> 
-                            </div>
-                    </td>
+                            <td colspan="2"> 
+                            <span class="pull-left" >
+                            <img  width="60px" src="qrcode.php?reg=<?php echo $regno ?>&id=<?php echo $v_id ?>">   
+                            <br>
+                            Prepared By  <?php echo $user ?>
+                            </span>
+                                    <span class="pull-right" >
+                                    <img src="sign.jpg" width="80px"><br>
+                                    <b>Officer Sign & Seal</b></span> 
+                            </td>
                         </tr>
+                     
                 </table>
             </div> 
         </div>

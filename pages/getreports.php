@@ -52,7 +52,7 @@ if(isset($_REQUEST['rep']) )
             $data[] = [ 
                 'sl'=>$sl, 
                 'date'=> date('d-m-Y', strtotime($rsult['used_on'])),
-                'reg_no'=> $rsult['reg_no'],
+                'reg_no'=> strtoupper($rsult['reg_no']),
                 'fname'=> $rsult['fname'],
                 'fuel_tot'=> $rsult['fuel_tot'], 
             ];
@@ -75,7 +75,7 @@ if(isset($_REQUEST['rep']) )
                 'id'=>$rsult['id'], 
                 'transid'=>"No.ELE/GLT/2021/FUEL/".str_pad($rsult['id'], 5, "0", STR_PAD_LEFT),
                 'date'=> date('d-m-Y', strtotime($rsult['used_on'])),
-                'reg_no'=> $rsult['reg_no'],
+                'reg_no'=>  strtoupper($rsult['reg_no']),
                 'fname'=> $rsult['fname'],
                 'cby' => $rsult['user'],
                 'fuel_tot'=> $rsult['fuel_tot'], 
