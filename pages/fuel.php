@@ -37,8 +37,7 @@ $msg="";
 if(isset($_POST['Submit']))
 {
 
-    $reg =  trim($_POST['reg']);
-    $officer =   $_POST['officer']; 
+    $reg =  trim($_POST['reg']); 
     $date_on =  $_POST['date_on'];   
     $fuelqty =   $_POST['fuelqty'];   
     $cby=$_SESSION['user_id'];
@@ -48,60 +47,86 @@ if(isset($_POST['Submit']))
     }  
     elseif(empty(trim($_POST["reg"]))){
         $reg_err = "Please enter the Vehicle Registration Number.";
-    } 
-    elseif(empty($_POST["officer"])){  
-        $officer_err = "Please enter Officer Name.";
-    } 
-   
+    }  
+    elseif(empty(trim($_POST["fuelqty"]))){
+        $fuelqty_err = "Please enter Fuel Qty.";
+    }  
     else
     {  
         
-        $s1 = "SELECT * from vehicles where reg_no = '$reg'";
+        $s1 = "SELECT a.*, b.name as fueltype from vehicles a inner join fuels b on a.fuel_type = b.id  where a.reg_no = '$reg'";
         $sql1 = mysqli_query($mysqli, $s1);         
         if ($sql1->num_rows > 0)
         {
-            $date = date('Y-m-d', strtotime($date_on));
-            $s = "SELECT count(1) as cnt from vehicle_assign where reg_no = '$reg' and used_on= '$date' and status =1";
-            $sqlx = mysqli_query($mysqli, $s);         
-            while($str = mysqli_fetch_array($sqlx))
+            while($str = mysqli_fetch_array($sql1))
             { 
-               // if((int)$str["cnt"]<1)
-                //{    
+                $driver_phone = $str["driver_phone"];
+                $fueltype = $str["fueltype"];
+            }
+            $date = date('Y-m-d', strtotime($date_on));
+            $s = "SELECT * from bulk_fuel where reg_no = '$reg' and used_on= '$date' and status =1";
+            $sqlx = mysqli_query($mysqli, $s);         
+            if ($sqlx->num_rows < 1)
+            { 
+                    $otp =rand ( 1000 , 9999 );
                     
-                     $sql="Insert into vehicle_assign (reg_no,person_name,used_on,fuel_request,cby,status,ip) values ('$reg','$officer','$date', '$fuelqty', '$cby',1,'$ip')";
-               		 $result=mysqli_query($mysqli,$sql);
+                    $sql="Insert into bulk_fuel (reg_no,used_on,fuel,cby, otp,status,curr_status,sys_ip) values ('$reg','$date', '$fuelqty', '$cby',$otp,1,0,'$ip')";
+                    $result=mysqli_query($mysqli,$sql);
                     if($result=="1")
-                    {      
-                        $id = mysqli_insert_id($mysqli);        
-                        for($i=0; $i < count($_POST['distfrom']); $i++) {
-                            $distfrom = addslashes($_POST['distfrom'][$i]);
-                            $distto = addslashes($_POST['distto'][$i]);
-                            $dist = addslashes($_POST['dist'][$i]); 
-     
-                            $sql="Insert into vehicle_trans(v_assigned_id, used_on,reg_no,loc_from,loc_to,distance) values('$id','$date','$reg','$distfrom','$distto','$dist')";
-                            $rslt=mysqli_query($mysqli,$sql);
-                            if($rslt!="1") 
-                            {
-                                $ok=="0";
-                            } 
-                        }      
-                        if($ok==1) { 
-                            header("Location: receipt.php?id=".$id);
+                    {     
+                         $id = mysqli_insert_id($mysqli);  
+                         $bocotp=$id+100;
+                         $bocotp= "TEMP".str_pad($bocotp, 4, '0', STR_PAD_LEFT);
+                        $sp= "Update bulk_fuel set boc_otp='$bocotp' where id=".$id;
+                        $rslt=mysqli_query($mysqli,$sp);
+                        if($rslt == "1")
+                        {
+                            $s = "SELECT * from boc_user where status=1";
+                            $s1 = mysqli_query($mysqli, $s);   
+                            while($q = mysqli_fetch_array($s1))
+                            { 
+                                $bocname = $q["name"];
+                                $bocphone = $q["phone"];
+                            }
+                            error_reporting (E_ALL ^ E_NOTICE);
+                            $username="rituraj43";
+                            $password ="ocangold@100";
+                            $number=$driver_phone ;
+                            $sender="MSGSAY";
+                            $message="Issued ".$fuelqty." Lt ". $fueltype." to  Reg No. ".$reg." on ".$date_on.". Share your OTP ".$otp." with ".$bocname;
+                            $template_id='1234567890987654321';                        
+                            $url="https://login.bulksmsgateway.in/sendmessage.php?user=".urlencode($username)."&password=".urlencode($password)."&mobile=".urlencode($number)."&sender=".urlencode($sender)."&message=".urlencode($message)."&type=".urlencode('3')."&template_id=".urlencode($template_id);
+                            $ch = curl_init($url);
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            echo $curl_scraped_page = curl_exec($ch);
+                            curl_close($ch); 
+    
+    
+                            error_reporting (E_ALL ^ E_NOTICE);
+                            $username="rituraj43";
+                            $password ="ocangold@100";
+                            $number=$bocphone ;
+                            $sender="MSGSAY";
+                            $message="Dear ".$bocname.", Please Issued ".$fuelqty." Lt ". $fueltype." to Reg No. ".$reg." on ".$date_on.". Your transaction Id is ".$bocotp." Keep OTP from the Driver and update in eleglt.online";
+                            $template_id='1234567890987654321';                         
+                            $url="https://login.bulksmsgateway.in/sendmessage.php?user=".urlencode($username)."&password=".urlencode($password)."&mobile=".urlencode($number)."&sender=".urlencode($sender)."&message=".urlencode($message)."&type=".urlencode('3')."&template_id=".urlencode($template_id);
+                            $ch = curl_init($url);
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            echo $curl_scraped_page = curl_exec($ch);
+                            curl_close($ch); 
+                           
+                           
                         }
-                        else{
-                            $msg="<span style='color:red'>Error in Trans DB!</span>";
-                        }
-                       
+                         
                     } 
                     else{
                         $msg="<span style='color:red'>Somthings went wrong!</span>";
-                    }
-               // }
-               // else
-               // {
-                //    $msg = "Fuel has been already given.";
-              //  }
+                    } 
             }   
+            else
+            {
+                $msg="<span style='color:red'>You cannot issue fuel without Logsheet for more than 1 time!</span>";
+            }
         }
                  
     }
@@ -115,12 +140,12 @@ if(isset($_POST['Submit']))
         <p><b><?php echo $msg ?></b></p>
         </div>
     </div> 
-<form action="logsheet.php" method="POST" class="col-md-12"  name="form1" onsubmit="return confirm('Do you really want to submit the form?');">
+<form action="fuel.php" method="POST" class="col-md-12"  name="form1" onsubmit="return confirm('Do you really want to submit the form?');">
     <div class="row">  
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                <strong>Enter Daywise Log Sheet</strong> 
+                <strong>Fuel Issue</strong> 
                 </div> 
                 <div class="card-body"> 
                         <div class="form-group row <?php echo (!empty($date_on_err)) ? 'has-error' : ''; ?>">
@@ -143,7 +168,7 @@ if(isset($_POST['Submit']))
          
                                 <input  list="brow" id="reg" name="reg" required class="form-control" autocomplete="off" maxlength="10"  onblur="return getdetails()"   style="text-transform: uppercase;"  value="<?php echo $reg; ?>">
                                 <datalist id="brow" >
-                                        <?php    $election_types = mysqli_query($mysqli, "SELECT * from vehicles where status=1"); ?> 
+                                        <?php    $election_types = mysqli_query($mysqli, "SELECT * from vehicles"); ?> 
                                         <?php while($r= mysqli_fetch_array($election_types)) { ?>
                                              <option value="<?php echo $r["reg_no"]; ?>"  > 
                                         <?php } ?>  
@@ -154,18 +179,22 @@ if(isset($_POST['Submit']))
                                     <span class="text-danger"><?php echo $reg_err; ?></span>
                             </div>
                         </div> 
-                        <div class="form-group row <?php echo (!empty($officer_err)) ? 'has-error' : ''; ?>">
-                            <label  class="col-md-3 col-form-label">Officer Name</label>
-                            <div class='col-md-5'> 
-                            <input type="text" id="officer" name="officer" tabindex="4" required autocomplete="off"   class="form-control" autocomplete="off">
-                              
+                        <div class="form-group row <?php echo (!empty($fuelqty_err)) ? 'has-error' : ''; ?>">
+                            <label  class="col-md-3 col-form-label"><strong>Fuel (in Liter)</strong></label>
+                                <div class='col-md-5'>
+                                    <input type="text" id="fuelqty" name="fuelqty" required onkeydown="return numeric(this, event.keyCode)"  maxlength="2"  class="form-control" autocomplete="off"  value="<?php echo $fuelqty; ?>">
+                                    <span class="text-danger"><?php echo $fuelqty_err; ?></span>
                             </div>    
-                            <div class='col-md-4 input-group date'>
-                                    <span class="text-danger"><?php echo $officer_err; ?></span>
-                            </div>
-                            <label id="desig" class="col-md-3 col-form-label"></label>
                         </div> 
+                        
                 </div>
+                <div class="card-footer">
+                  <span class="pull-right">
+                   
+                    <input type="submit" name="Submit" value="Submit" class="btn btn-primary"  >   
+                    <a href="fuel.php" tabindex="13"  class="btn btn-default">Reset</a> 
+                  </span>
+            </div>
             </div> 
         </div>
         <div class="col-md-6">
@@ -198,85 +227,7 @@ if(isset($_POST['Submit']))
             </div>  
         </div>
     </div> 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">     
-                    <table id="myTab" class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th width="30%">
-                                From
-                            </th>   
-                            <th width="30%">
-                                To
-                            </th> 
-                            <th width="25%">
-                                Distance (in KM)
-                            </th>   
-                            <th>
-                                Action
-                            </th>          
-                        </tr>
-                        </thead>
-                       
-                        <tbody>
-                        <tr>
-                            <td>
-                            <input type="text" id="distfrom0" name="distfrom[]" required autocomplete="off"   class="form-control" value="">
-                            </td>   
-                            <td>
-                            <input type="text" id="distto0" name="distto[]" required autocomplete="off"   class="form-control" value="">
-                            </td>  
-                            <td>
-                                <input type="text" id="dist0" name="dist[]" required class="form-control txtCal"  autocomplete="off" onkeydown="return numeric(this, event.keyCode)"  maxlength="3" value="">
-                            </td>    
-                            <td>
-                            <span id="btnfld0">
-                                <a  id="addRowBtn0" onclick="addRow()" href="javascript:void(0)" class="btn btn-md btn-primary">Add</a>
-                           </span>
-                            </td>         
-                        </tr>
-                        </tbody>
-                        <tbody id="logtab" >
-                        </tbody>
-                        <tfooter>
-                        <tr>
-                            <th colspan="2" width="35%">
-                            <span class="pull-right"> Total</span> 
-                            </th> 
-                            <th width="20%">
-                                <label id="total_val">0</label>
-                            </th>   
-                            <th>
-                                
-                            </th>          
-                        </tr>
-                        </tfooter>
-                    </table>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row <?php echo (!empty($fuelqty_err)) ? 'has-error' : ''; ?>">
-                            <label  class="col-md-3 col-form-label"><strong>Fuel (in Liter)</strong></label>
-                                <div class='col-md-8'>
-                                    <input type="text" id="fuelqty" name="fuelqty" required onkeydown="return numeric(this, event.keyCode)"  maxlength="2"  class="form-control" autocomplete="off"  value="<?php echo $fuelqty; ?>">
-                                    <span class="text-danger"><?php echo $fuelqty_err; ?></span>
-                                </div>    
-                            </div> 
-                        </div>
-                         
-                    </div>
-                  
-            </div>
-            <div class="card-footer">
-                  <span class="pull-right">
-                   
-                    <input type="submit" name="Submit" value="Submit" class="btn btn-primary"  >   
-                    <a href="logsheet.php" tabindex="13"  class="btn btn-default">Reset</a> 
-                  </span>
-            </div> 
-        </div>
-    </div>
+    
     
 </div> 
 </form>
@@ -405,7 +356,8 @@ function getdetails() {
             data: {'op': "1", 'reg': val, 'date': date},
             type: "GET",
             url: "getreg.php", 
-            error: function (resp) { 
+            error: function (resp) {
+                debugger;
                 $('#driver').html("");   
                 $('#driver_phone').html("");   
                 $('#name').html("");   
@@ -413,7 +365,9 @@ function getdetails() {
                 $('#reg').val("");
                 $('#alrt').html("");
             },                
-            success: function(resp){     
+            success: function(resp){    
+                debugger; 
+               
                 $('#driver').html(resp.driver);   
                 $('#driver_phone').html(resp.driver_phone);   
                 $('#name').html(resp.name);   
@@ -429,8 +383,7 @@ function getdetails() {
                 if( resp.name=="")
                 { 
                     $('#reg').val("");
-                    $('#alrt').html("");
-                   
+                    $('#alrt').html(""); 
                 }
                           
             }, 
