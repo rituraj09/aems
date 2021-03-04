@@ -405,8 +405,7 @@ function getdetails() {
             data: {'op': "1", 'reg': val, 'date': date},
             type: "GET",
             url: "getreg.php", 
-            error: function (resp) {
-                debugger;
+            error: function (resp) { 
                 $('#driver').html("");   
                 $('#driver_phone').html("");   
                 $('#name').html("");   
@@ -414,9 +413,7 @@ function getdetails() {
                 $('#reg').val("");
                 $('#alrt').html("");
             },                
-            success: function(resp){    
-                debugger; 
-               
+            success: function(resp){     
                 $('#driver').html(resp.driver);   
                 $('#driver_phone').html(resp.driver_phone);   
                 $('#name').html(resp.name);   
@@ -432,7 +429,8 @@ function getdetails() {
                 if( resp.name=="")
                 { 
                     $('#reg').val("");
-                    $('#alrt').html(""); 
+                    $('#alrt').html("");
+                   
                 }
                           
             }, 
