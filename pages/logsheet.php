@@ -143,7 +143,7 @@ if(isset($_POST['Submit']))
          
                                 <input  list="brow" id="reg" name="reg" required class="form-control" autocomplete="off" maxlength="10"  onblur="return getdetails()"   style="text-transform: uppercase;"  value="<?php echo $reg; ?>">
                                 <datalist id="brow" >
-                                        <?php    $election_types = mysqli_query($mysqli, "SELECT * from vehicles"); ?> 
+                                        <?php    $election_types = mysqli_query($mysqli, "SELECT * from vehicles where status=1"); ?> 
                                         <?php while($r= mysqli_fetch_array($election_types)) { ?>
                                              <option value="<?php echo $r["reg_no"]; ?>"  > 
                                         <?php } ?>  

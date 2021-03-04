@@ -38,62 +38,7 @@ $s4= mysqli_query($mysqli, $qry4);
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="card text-white bg-primary">
-                        <div class="card-body text-center">
-                            <div class="small text-uppercase font-weight-bold">Total Distance Covered</div>
-                            <div class="h2 py-3">
-                            
-                            <?php 
-                           while($r2 = mysqli_fetch_array($s2)) { 
-                            echo $r2["cnt"] ." KMs";
-                            } 
-                            ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                 
-             
-
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card text-white bg-warning">
-                        <div class="card-body text-center">
-                            <div class="small text-uppercase font-weight-bold">Total Fuel Issued </div>
-                          
-                        </div>
-                        <div class="card-body py-0 px-4 b-t-1">
-                                <div class="row">
-                                <?php 
-                                    $sl=0;
-                                if ($s4->num_rows > 0){
-                                    while($r4 = mysqli_fetch_array($s4)) 
-                                        {
-                                        $sl =$sl+1;  
-                                            ?>
-                                            <?php if( $sl==1) {?>
-                                                <div class="col-6 b-r-1 py-3 text-center">
-                                            <?php } 
-                                            else { ?>
-                                                <div class='col-6 py-3 text-center'>
-                                            <?php }
-                                            ?>
-                                                <div class="font-weight-bold"> <?php echo $r4["lt"]; ?> LT. </div>
-                                                <div class="font-weight-bold "> <?php echo $r4["name"]; ?> </div>
-                                            </div>
-                                        <?php }
-                                }
-                                                else
-                                                {?> 
-                                                  <div class='col-12  text-center'>
-                                                  <div class="font-weight-bold"><span style="visibility:hidden">Hello</span> </div>  
-                                                  <div class="font-weight-bold"><span style="visibility:hidden">Hello</span> </div> 
-                                                </div>
-                                                <?php } ?>
-                                </div>
-                            </div>
-                    </div>
-                </div>
+               
                 <div class="col-sm-6 col-lg-3">
                     <div class="card text-white bg-danger">
                         <div class="card-body text-center">
@@ -121,6 +66,73 @@ $s4= mysqli_query($mysqli, $qry4);
                                         <?php }?> 
                                 </div>
                             </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card text-white bg-warning">
+                        <div class="card-body text-center">
+                            <div class="small text-uppercase font-weight-bold">Total Fuel Issued </div>
+                          
+                        </div>
+                        <div class="card-body py-0 px-4 b-t-1">
+                                <div class="row">
+                                <?php 
+                                    $sl=0;
+                                    $petrol=0;
+                                    $desiel=0;
+                                if ($s4->num_rows > 0){
+                                    while($r4 = mysqli_fetch_array($s4)) 
+                                        {
+                                        $sl =$sl+1;  
+                                            ?>
+                                            <?php if( $sl==1) {?>
+                                                <div class="col-6 b-r-1 py-3 text-center">
+                                            <?php } 
+                                            else { ?>
+                                                <div class='col-6 py-3 text-center'>
+                                            <?php }
+                                            ?>
+                                                <div class="font-weight-bold"> <?php echo $r4["lt"]; ?> LT. </div>
+                                                <div class="font-weight-bold "> <?php echo $r4["name"]; ?> </div>
+                                                
+                                                <?php 
+                                                if( $sl==1){
+                                                    $petrol=$r4["lt"]*85;
+                                                }
+                                                else {
+                                                    $desiel=$r4["lt"]*85;
+                                                }?>
+                                            </div>
+                                        <?php }
+                                }
+                                                else
+                                                {?> 
+                                                  <div class='col-12  text-center'>
+                                                  <div class="font-weight-bold"><span style="visibility:hidden">Hello</span> </div>  
+                                                  <div class="font-weight-bold"><span style="visibility:hidden">Hello</span> </div> 
+                                                </div>
+                                                <?php } ?>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="card text-white bg-danger">
+                        <div class="card-body text-center">
+                            <div class="small text-uppercase font-weight-bold">Aprox. Cost.</div>
+                        </div>
+                        <div class="card-body py-0 px-4 b-t-1">
+                            <div class="row">
+                                <div class="col-6 b-r-1 py-3 text-center">
+                                <div class="small">INR. <?php echo $petrol; ?> (approx.)</div>
+                                    <div class="font-weight-bold "> Petrol </div>
+                                </div>
+                                <div class='col-6 py-3 text-center'>
+                                <div class="small   ">INR.  <?php echo $desiel; ?> (approx.)</div>
+                                    <div class="font-weight-bold ">Diesel</div>
+                                </div>
+                            </div>  
+                        </div> 
                     </div>
                 </div>
             </div>
