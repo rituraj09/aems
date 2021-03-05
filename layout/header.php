@@ -49,10 +49,32 @@ ob_start();
     <div class="sidebar">
       <nav class="sidebar-nav">
         <ul class="nav">
+        <?php if( $_SESSION['user_type']=="4"  ) {?>
+          <li class="nav-item">
+            <a class="nav-link" href="../permission/dashboard.php"><i class="icon-speedometer"></i> Dashboard  </a>
+          </li>
+          <li class="nav-title">
+            Data Entry
+          </li> 
+          <li class="nav-item">
+            <a href="../permission/entry.php" class="nav-link"><i class="fa fa-car"></i> Vehicle Entry</a>
+          </li> 
+          <li class="nav-title">
+            Reports
+          </li> 
+          <li class="nav-item">
+            <a href="../permission/report.php" class="nav-link"><i class="fa fa-file"></i> Permission Reports</a>
+          </li> 
+          <?php } else { ?>
+            <?php if( $_SESSION['user_type']=="1"  ) {?>
+          <li class="nav-item">
+            <a class="nav-link" href="../permission/dashboard.php"><i class="icon-speedometer"></i> Dashboard  </a>
+          </li>
+          <?php }  ?>
           <li class="nav-item">
             <a class="nav-link" href="../pages/dashboard.php"><i class="icon-speedometer"></i> Dashboard  </a>
           </li>
-
+      
          <?php if( $_SESSION['user_type']=="1" || $_SESSION['user_type']=="2" ) {?>
           <li class="nav-title">
             Masters
@@ -87,7 +109,7 @@ ob_start();
               
             </ul>
           </li>
-          
+          <?php }  ?>
         </ul>
       </nav>
       <button class="sidebar-minimizer brand-minimizer" type="button"></button>

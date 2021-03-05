@@ -1,6 +1,10 @@
 <?php
 include("../config.php"); 
 include("../layout/header.php");
+if($_SESSION["user_type"]== 4){
+    header("location: ../permission/dashboard.php");
+    exit;
+}
 $vehicleCOunt=0;
 $qry1 = "select count(1) as cnt from vehicles where status=1";
 $s1 = mysqli_query($mysqli, $qry1);         
@@ -13,11 +17,9 @@ $qry2 = "select sum(distance) as cnt from vehicle_trans where status=1";
 $s2= mysqli_query($mysqli, $qry2);         
 
 $date =date('Y-m-d');
-$qry3 = "SELECT sum(fuel_request) as lt, c.name FROM vehicle_assign a inner join vehicles b on a.reg_no = b.reg_no inner join fuels c on b.fuel_type=c.id where a.status=1 and used_on = '".$date."' group by b.fuel_type";
-$s3= mysqli_query($mysqli, $qry3);      
+   
  
-$qry4 = "SELECT sum(fuel_request) as lt, c.name FROM vehicle_assign a inner join vehicles b on a.reg_no = b.reg_no inner join fuels c on b.fuel_type=c.id where a.status=1  group by b.fuel_type";
-$s4= mysqli_query($mysqli, $qry4);  
+
 ?>
  <div class="container-fluid">
     <div class="row"> 
@@ -32,23 +34,35 @@ $s4= mysqli_query($mysqli, $qry4);
                     <div class="card text-white bg-success">
                         <div class="card-body text-center">
                             <div class="small text-uppercase font-weight-bold">Total Vehicle Registered</div>
-                            <div class="h2 py-3">
-                            <?php echo $vehicleCOunt ?>
+                            <div class="h1 py-3">
+                            <h1><?php echo $vehicleCOunt ?></h1>
                             </div>
                         </div>
                     </div>
                 </div>
                
                 <div class="col-sm-6 col-lg-3">
-                    <div class="card text-white bg-danger">
+                    <div class="card text-white bg-primary">
                         <div class="card-body text-center">
                             <div class="small text-uppercase font-weight-bold">Fuel Issued on Today</div>
-                          
+                            <?php 
+                            $fl=0;
+                            $qry3 = "SELECT sum(fuel_request) as lt, c.name FROM vehicle_assign a inner join vehicles b on a.reg_no = b.reg_no inner join fuels c on b.fuel_type=c.id where a.status=1 and used_on = '".$date."' group by b.fuel_type";
+                            $s3= mysqli_query($mysqli, $qry3);  
+                            while($r3 = mysqli_fetch_array($s3)) 
+                            {
+                                $fl = $fl+ $r3["lt"];
+                            }
+                            ?>
+                            <div class="small text-uppercase font-weight-bold"><?php echo $fl; ?> LT.</div>
+                           
                         </div>
                         <div class="card-body py-0 px-4 b-t-1">
                                 <div class="row">
                                 <?php 
                                     $sl=0;
+                                    $qry3 = "SELECT sum(fuel_request) as lt, c.name FROM vehicle_assign a inner join vehicles b on a.reg_no = b.reg_no inner join fuels c on b.fuel_type=c.id where a.status=1 and used_on = '".$date."' group by b.fuel_type";
+                                    $s3= mysqli_query($mysqli, $qry3);  
                                     while($r3 = mysqli_fetch_array($s3)) 
                                         {
                                         $sl =$sl+1;  
@@ -69,9 +83,19 @@ $s4= mysqli_query($mysqli, $qry4);
                     </div>
                 </div>
                 <div class="col-sm-6 col-lg-3">
-                    <div class="card text-white bg-warning">
+                    <div class="card text-white bg-info">
                         <div class="card-body text-center">
                             <div class="small text-uppercase font-weight-bold">Total Fuel Issued </div>
+                           <?php 
+                            $fl=0;
+                            $qry4 = "SELECT sum(fuel_request) as lt, c.name FROM vehicle_assign a inner join vehicles b on a.reg_no = b.reg_no inner join fuels c on b.fuel_type=c.id where a.status=1  group by b.fuel_type";
+                            $s4= mysqli_query($mysqli, $qry4);  
+                            while($r4 = mysqli_fetch_array($s4)) 
+                            {
+                                $fl = $fl+ $r4["lt"];
+                            }
+                            ?>
+                            <div class="small text-uppercase font-weight-bold"><?php echo  $fl ?> Lt </div>
                           
                         </div>
                         <div class="card-body py-0 px-4 b-t-1">
@@ -80,7 +104,9 @@ $s4= mysqli_query($mysqli, $qry4);
                                     $sl=0;
                                     $petrol=0;
                                     $desiel=0;
-                                if ($s4->num_rows > 0){
+                                    $qry4 = "SELECT sum(fuel_request) as lt, c.name FROM vehicle_assign a inner join vehicles b on a.reg_no = b.reg_no inner join fuels c on b.fuel_type=c.id where a.status=1  group by b.fuel_type";
+                                    $s4= mysqli_query($mysqli, $qry4);
+                                    if ($s4->num_rows > 0){
                                     while($r4 = mysqli_fetch_array($s4)) 
                                         {
                                         $sl =$sl+1;  
@@ -120,6 +146,7 @@ $s4= mysqli_query($mysqli, $qry4);
                     <div class="card text-white bg-danger">
                         <div class="card-body text-center">
                             <div class="small text-uppercase font-weight-bold">Aprox. Cost.</div>
+                            <div class="small text-uppercase font-weight-bold">INR. <?php echo $petrol+$desiel; ?></div>
                         </div>
                         <div class="card-body py-0 px-4 b-t-1">
                             <div class="row">

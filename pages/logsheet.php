@@ -181,11 +181,16 @@ if(isset($_POST['Submit']))
                             </div>
                             <div class="col-12"> 
                                 <strong><label class="col-sm-3  col-form-label">Driver's Mobile</label></strong> 
-                                <label  class="col-md-3" id="driver_phone"></label>   
+                                <label  class="col-md-6" id="driver_phone"></label>   
                             </div>
+                          
                             <div class="col-12"> 
                                 <strong><label class="col-sm-3  col-form-label">Vehicle Name</label></strong> 
                                 <label  class="col-md-3" id="name"></label>   
+                            </div>
+                            <div class="col-12"> 
+                                <strong><label class="col-sm-3  col-form-label">Used In</label></strong> 
+                                <label  class="col-md-8" id="usedin"></label>   
                             </div>
                             <div class="col-12"> 
                                 <strong><label class="col-sm-3  col-form-label">Fuel Type</label></strong> 
@@ -411,6 +416,7 @@ function getdetails() {
                 $('#name').html("");   
                 $('#fuel').html("");  
                 $('#reg').val("");
+                $('#usedin').val("");
                 $('#alrt').html("");
             },                
             success: function(resp){     
@@ -418,6 +424,7 @@ function getdetails() {
                 $('#driver_phone').html(resp.driver_phone);   
                 $('#name').html(resp.name);   
                 $('#fuel').html(resp.fuel);  
+                $('#usedin').html(resp.usedin);  
                 if(resp.cnt!="0") 
                 {
                     $('#alrt').html("This Vehicle already issued Fuel on "+date+ " for "+resp.cnt+ " time." );

@@ -9,12 +9,13 @@ if(isset($_REQUEST['id']) )
         $reg = "";
         $driver="";
         $phone="";
-        $qry="select a.*, b.name as fuel, c.name as vtype,d.name as usedin from vehicles a inner join fuels b on a.fuel_type=b.id inner join vehicle_types c on a.vehicle_type=c.id inner join election_types d on a.used_type=d.id where a.status=1 and a.id=".$_REQUEST['id'];
+        $qry="select a.*, b.name as fuel, c.name as vtype,d.name as usedin,d.id as used_type from vehicles a inner join fuels b on a.fuel_type=b.id inner join vehicle_types c on a.vehicle_type=c.id inner join election_types d on a.used_type=d.id where a.status=1 and a.id=".$_REQUEST['id'];
         $s= mysqli_query($mysqli, $qry); 
         while( $row = mysqli_fetch_array($s) ) {
             $reg=$row["reg_no"];
             $driver=$row["driver_name"];
             $phone=$row["driver_phone"];
+            $used_type=$row["used_type"];
         }
 }
 ?>  
@@ -37,8 +38,9 @@ if(isset($_REQUEST['id']) )
                         <h1 style="font-size:70px">ON ELECTION DUTY</h1> 
                         <h2 style="font-size:40px">Vehicle No : <?php echo $reg ?></h2> 
                         <img  width="250px" src="qrvehicle.php?id=<?php echo $id ?>">   
-                        <h2>Driver Name : <?php echo $driver ?></h2>
-                        <h2>Driver's Mobile : <?php echo $phone ?></h2>
+
+                        <h2><?php if($used_type==11){ echo "Owner Name"; }else{ echo "Driver Name";}?> : <?php echo $driver ?></h2>
+                        <h2><?php if($used_type==11){ echo "Owner's Mobile"; }else{ echo "Driver's Mobile";}?> : <?php echo $phone ?></h2>
                         
                         <div class="row">
                             <div class="col-md-3" >

@@ -125,7 +125,8 @@ if(isset($_POST['Submit']))
                             <select name="type" required   class="form-control" >
                                 <option value="">--Select--</option>
                                 <option value="2">Content Manager</option>
-                                <option value="3">Viewer</option>
+                                <option value="3">Creator</option>
+                                <option value="4">Permissions</option>
                             </select>
                             <span class="help-block"><?php echo $type_err; ?></span>
                         </div>   
@@ -200,9 +201,13 @@ if(isset($_POST['Submit']))
                                 {
                                     echo "Content Manager";                
                                 }
-                                else
+                                elseif( $r["user_type"] == "3" )
                                 {
-                                    echo "Viewer";                
+                                    echo "Creator";                
+                                } 
+                                elseif( $r["user_type"] == "4" )
+                                {
+                                    echo "Permissions";                
                                 } 
                             ?>
                         </td>
