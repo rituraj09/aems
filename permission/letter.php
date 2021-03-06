@@ -1,6 +1,6 @@
 <?php
 include("../config.php");   
-include("../layout/header.php");  
+include("../layout/baseheader.php");  
 ?>  
 <style>
 .table th, .table td 
@@ -12,7 +12,43 @@ include("../layout/header.php");
 if(isset($_REQUEST['id']) )
 {
     
-    $id= $_REQUEST['id']; 
+    class Encryption{
+
+        public static function safe_b64encode($string='') {
+            $data = base64_encode($string);
+            $data = str_replace(['+','/','='],['-','_',''],$data);
+            return $data;
+        }
+
+        public static function safe_b64decode($string='') {
+            $data = str_replace(['-','_'],['+','/'],$string);
+            $mod4 = strlen($data) % 4;
+            if ($mod4) {
+                $data .= substr('====', $mod4);
+            }
+            return base64_decode($data);
+        }
+
+        public static function encode($value=false){ 
+            if(!$value) return false;
+            $iv_size = openssl_cipher_iv_length('aes-256-cbc');
+            $iv = openssl_random_pseudo_bytes($iv_size);
+            $crypttext = openssl_encrypt($value, 'aes-256-cbc', 'your security cipherSeed', OPENSSL_RAW_DATA, $iv);
+            return self::safe_b64encode($iv.$crypttext); 
+        }
+
+        public static function decode($value=false){
+            if(!$value) return false;
+            $crypttext = self::safe_b64decode($value);
+            $iv_size = openssl_cipher_iv_length('aes-256-cbc');
+            $iv = substr($crypttext, 0, $iv_size);
+            $crypttext = substr($crypttext, $iv_size);
+            if(!$crypttext) return false;
+            $decrypttext = openssl_decrypt($crypttext, 'aes-256-cbc', 'your security cipherSeed', OPENSSL_RAW_DATA, $iv);
+            return rtrim($decrypttext);
+        }
+    }
+        $id=   Encryption::decode($_REQUEST['id']);   
         $user = "";
         $qry="select a.*,p.name as party, u.name as user from permission a inner join political p on a.political_party=p.id inner join users u on a.cby =u.id where a.status=1 and a.id=".$id;
         $s= mysqli_query($mysqli, $qry); 
@@ -35,11 +71,7 @@ if(isset($_REQUEST['id']) )
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <div class="card-body">  
-            <a href="report.php" class="btn btn-success btn-sm">Back</a>
-                <input type="button" class="btn btn-danger btn-sm" onclick="printDiv('view-print')" value="Print" /> 
-                <a href="permissionslip.php?id=<?php echo $id ?>" target="_blank" class="btn btn-info btn-sm">Print Slip</a>
-            </div>
+             
             <div id="view-print"  class="card"> 
                 <div class="card-body">
                     <div class="row"> 
@@ -208,9 +240,7 @@ if(isset($_REQUEST['id']) )
         </div>
     </div> 
 </div>
- <?php 
-include("../layout/footerhead.php"); 
- ?>
+ 
  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 
  <?php

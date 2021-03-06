@@ -27,6 +27,8 @@ function get_client_ip()
       return $ipaddress;
  }
 $ip = get_client_ip();
+$lac = "";
+$lac_err = "";
 $candname = "";
 $candname_err="";
 $politicalparty =""; 
@@ -35,23 +37,38 @@ $fromdate ="";
 $from_date_err="";
 $todate =""; 
 $to_date_err =""; 
+$add =""; 
+$add_err =""; 
+$mob =""; 
+$mob_err =""; 
 $cby="";
 $ok = "1";
 $msg="";  
 if(isset($_POST['Submit']))
 {
 
+    $lac =   $_POST['lac']; 
     $candname =  trim($_POST['candname']);
     $politicalparty =   $_POST['politicalparty']; 
     $fromdate =  $_POST['fromdate'];   
     $todate =   $_POST['todate'];   
+    $add =  $_POST['add'];   
+    $mob =   $_POST['mob'];   
     $cby=$_SESSION['user_id'];
-
-    if(empty(trim($_POST["candname"]))){
+    if(empty(trim($_POST["lac"]))){
+        $lac_err = "Please Select LAC.";
+    }  
+    elseif(empty(trim($_POST["candname"]))){
         $date_on_err = "Please enter Candidate Name.";
     }  
     elseif(empty(trim($_POST["politicalparty"]))){
         $reg_err = "Please enter Political Party Name.";
+    } 
+    elseif(empty(trim($_POST["add"]))){
+        $reg_err = "Please enter Address";
+    } 
+    elseif(empty(trim($_POST["mob"]))){
+        $reg_err = "Please enter Candidate's Mobile";
     } 
     elseif(empty($_POST["fromdate"])){  
         $officer_err = "Please enter From Date";
@@ -63,14 +80,14 @@ if(isset($_POST['Submit']))
     {      
         $fdate = date('Y-m-d', strtotime($fromdate)); 
         $tdate = date('Y-m-d', strtotime($todate)); 
-        $sql="Insert into permission (candname,political_party,from_date,to_date,cby,ip) values ('$candname','$politicalparty','$fdate', '$tdate', '$cby','$ip')";
+        $sql="Insert into permission (candname,lac,political_party,address,mobile,from_date,to_date,cby,ip) values ('$candname','$lac','$politicalparty','$add','$mob','$fdate', '$tdate', '$cby','$ip')";
             $result=mysqli_query($mysqli,$sql);
         if($result=="1")
         {      
             $id = mysqli_insert_id($mysqli);        
             for($i=0; $i < count($_POST['regno']); $i++) {
                 $type = addslashes($_POST['type'][$i]);
-                $regno = addslashes($_POST['regno'][$i]);
+                $regno = addslashes(strtoupper($_POST['regno'][$i]));
                 $oname = addslashes($_POST['oname'][$i]); 
                 $ophone = addslashes($_POST['ophone'][$i]); 
                 $dname = addslashes($_POST['dname'][$i]); 
@@ -111,23 +128,26 @@ if(isset($_POST['Submit']))
             <div class="card-body"> 
                 <div class="row">
                     <div class="col-md-6">
+                    <div class="form-group <?php echo (!empty($lac_err)) ? 'has-error' : ''; ?>">
+                            <label>LAC: </label>
+                            <select name="lac"  tabindex="1" class="form-control" required>
+                                <option value="">--Select--</option>
+                                <option value="95">95-Golaghat</option>
+                                <option value="96">96-Khumtai</option>
+                            </select>
+                             <span class="text-danger"><?php echo $lac_err; ?></span>
+                        </div> 
                         <div class="form-group <?php echo (!empty($candname_err)) ? 'has-error' : ''; ?>">
                             <label>Candidate Name</label>
-                            <input type="text" name="candname"  tabindex="1" class="form-control" autocomplete="off" value="<?php echo $candname; ?>">
+                            <input type="text" name="candname"  tabindex="3" class="form-control" autocomplete="off" value="<?php echo $candname; ?>">
                             <span class="text-danger"><?php echo $candname_err; ?></span>
                         </div> 
+                        <div class="form-group <?php echo (!empty($mob_err)) ? 'has-error' : ''; ?>">
+                            <label>Candidate Mobile</label>
+                            <input type="text" name="mob"  tabindex="5" class="form-control" autocomplete="off"  minlength="10" maxlength="10"   value="<?php echo $mob; ?>">
+                            <span class="text-danger"><?php echo $mob_err; ?></span>
+                        </div> 
                       
-                        <div class="form-group <?php echo (!empty($from_date_err)) ? 'has-error' : ''; ?>">
-                                <label>From Date</label>
-                                <div class='input-group date' class='datetimepicker1'>
-                                    <input type="text" name="fromdate" autocomplete="off" id="used_from"  tabindex="1"
-                                    class="form-control datepicker date-format"   placeholder="dd-mm-yyyy"  value="<?php echo $fromdate; ?>"
-                                    onblur="ValidateDate(this, event.keyCode);" onkeydown="return DateFormat(this, event.keyCode)" maxlength="10" onfocus="this.select();">
-                                    <span class="input-group-text">
-                                        <span class="icon-calendar"></span>
-                                        <span class="text-danger"><?php echo $from_date_err; ?></span>
-                                </div>  
-                        </div>
                        
                     </div> 
                     <div class="col-md-6">
@@ -143,10 +163,33 @@ if(isset($_POST['Submit']))
                                     </select>
                             <span class="text-danger"><?php echo $political_party_err; ?></span>
                         </div> 
+                        <div class="form-group <?php echo (!empty($add_err)) ? 'has-error' : ''; ?>">
+                            <label>Address</label>
+                            <input type="text" name="add"  tabindex="4" class="form-control" autocomplete="off" value="<?php echo $add; ?>">
+                            <span class="text-danger"><?php echo $add_err; ?></span>
+                        </div> 
+                        
+                    </div> 
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group <?php echo (!empty($from_date_err)) ? 'has-error' : ''; ?>">
+                                <label>From Date</label>
+                                <div class='input-group date' class='datetimepicker1'>
+                                    <input type="text" name="fromdate" autocomplete="off" id="used_from"  tabindex="6"
+                                    class="form-control datepicker date-format"   placeholder="dd-mm-yyyy"  value="<?php echo $fromdate; ?>"
+                                    onblur="ValidateDate(this, event.keyCode);" onkeydown="return DateFormat(this, event.keyCode)" maxlength="10" onfocus="this.select();">
+                                    <span class="input-group-text">
+                                        <span class="icon-calendar"></span>
+                                        <span class="text-danger"><?php echo $from_date_err; ?></span>
+                                </div>  
+                        </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group <?php echo (!empty($to_date_err)) ? 'has-error' : ''; ?>">
                                 <label>To Date</label>
                                 <div class='input-group date' class='datetimepicker1'>
-                                    <input type="text" name="todate" autocomplete="off" id="used_from"  tabindex="10"
+                                    <input type="text" name="todate" autocomplete="off" id="used_from"  tabindex="7"
                                     class="form-control datepicker date-format"   placeholder="dd-mm-yyyy"  value="<?php echo $todate; ?>"
                                     onblur="ValidateDate(this, event.keyCode);" onkeydown="return DateFormat(this, event.keyCode)" maxlength="10" onfocus="this.select();">
                                     <span class="input-group-text">
@@ -154,7 +197,7 @@ if(isset($_POST['Submit']))
                                         <span class="text-danger"><?php echo $to_date_err; ?></span>
                                 </div>  
                         </div> 
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
@@ -214,7 +257,7 @@ if(isset($_POST['Submit']))
                                 <input type="text" id="oname0" name="oname[]" required class="form-control oname"  autocomplete="off"  value="">
                             </td>  
                             <td>
-                                <input type="text" id="ophone0" name="ophone[]" required class="form-control ophone"  minlength="10" maxlength="10"  onkeydown="return numeric(this, event.keyCode)"   autocomplete="off"  value="">
+                                <input type="text" id="ophone0" name="ophone[]" required class="form-control ophone"  minlength="10" maxlength="10"      autocomplete="off"  value="">
                             </td>
                             <td>
                             <input type="checkbox" id="samename0"  onchange="same(0)" name="samename[]">
@@ -230,7 +273,7 @@ if(isset($_POST['Submit']))
                             </td>  
                             <td>
                             <span id="btnfld0">
-                                <a  id="addRowBtn0" onclick="addRow(); gettype(); regno();" href="javascript:void(0)" class="btn btn-sm btn-primary"><i class='fa fa-plus'></i></a>
+                                <a  id="addRowBtn0" onclick="addRow();  regno();" href="javascript:void(0)" class="btn btn-sm btn-primary"><i class='fa fa-plus'></i></a>
                            </span>
                             </td>         
                         </tr>
@@ -264,7 +307,7 @@ include("../layout/basefooter.php");
 ?>
 <script type="text/javascript" >
 $(document).ready(function(){ 
-    gettype();
+    gettype(0);
     regno();
 });
 function regno()
@@ -345,10 +388,8 @@ function ValidateDate(txt, keyCode) {
     };   
 function addRow() { 
     var tbl = $("#logtab");
-    var d= $('#logtab').find('tr').length; 
-    if(d<4)
-    {
-        n = Number(d);
+    var d= $('#logtab').find('tr').length;  
+    n = Number(d);
     d = Number(d)+1;
     var sl =d+1;
     var trid="tr"+d; 
@@ -361,13 +402,10 @@ function addRow() {
     var tabid6="dphone"+d;
     var tabid7="dlno"+d;  
     var btnfldid="btnfld"+d; 
-     $("<tr id='"+trid+"'><td><label id>"+sl+"</label></td><td><select  required id='"+tabid1+"' name='type[]' class='form-control vtype' ></select></select></td><td> <input type='text'  id='"+tabid2+"' name='regno[]' required class='form-control regno'  autocomplete='off' value=''></td><td>  <input type='text'  id='"+tabid3+"' name='oname[]' class='form-control oname' required autocomplete='off' value=''></td><td> <input type='text'  id='"+tabid4+"' name='ophone[]' class='form-control ophone'  minlength='10' maxlength='10'  onkeydown='return numeric(this, event.keyCode)' required autocomplete='off' value=''></td><td><input type='checkbox' id='"+tabx+"' class='samename' onchange='same("+d+")' name='samename[]'></td><td>  <input type='text'  id='"+tabid5+"' name='dname[]' class='form-control dname' required autocomplete='off' value=''></td>    <td>  <input type='text'  id='"+tabid6+"' name='dphone[]' class='form-control dphone' required autocomplete='off' minlength='10' maxlength='10'  onkeydown='return numeric(this, event.keyCode)' value=''></td>    <td>  <input type='text'  id='"+tabid7+"' name='dlno[]' class='form-control' required autocomplete='off' value=''></td><td><span id='"+btnfldid+"'><a  onclick='addRow(); gettype();  regno();' href='javascript:void(0)' class='btn btn-sm btn-primary'><i class='fa fa-plus'></i></a> <a onclick='deleteRow("+d+")' href='javascript:void(0)' class='btn btn-sm btn-danger' ><i class='fa fa-trash'></i></a></span></td></tr>").appendTo(tbl);        
+     $("<tr id='"+trid+"'><td><label id>"+sl+"</label></td><td><select  required id='"+tabid1+"' name='type[]' class='form-control vtype' ></select></select></td><td> <input type='text'  id='"+tabid2+"' name='regno[]' required class='form-control regno'  autocomplete='off' value=''></td><td>  <input type='text'  id='"+tabid3+"' name='oname[]' class='form-control oname' required autocomplete='off' value=''></td><td> <input type='text'  id='"+tabid4+"' name='ophone[]' class='form-control ophone'  minlength='10' maxlength='10'  required autocomplete='off' value=''></td><td><input type='checkbox' id='"+tabx+"' class='samename' onchange='same("+d+")' name='samename[]'></td><td>  <input type='text'  id='"+tabid5+"' name='dname[]' class='form-control dname' required autocomplete='off' value=''></td>    <td>  <input type='text'  id='"+tabid6+"' name='dphone[]' class='form-control dphone' required autocomplete='off' minlength='10' maxlength='10'   value=''></td>    <td>  <input type='text'  id='"+tabid7+"' name='dlno[]' class='form-control' required autocomplete='off' value=''></td><td><span id='"+btnfldid+"'><a  onclick='addRow(); regno();' href='javascript:void(0)' class='btn btn-sm btn-primary'><i class='fa fa-plus'></i></a> <a onclick='deleteRow("+d+")' href='javascript:void(0)' class='btn btn-sm btn-danger' ><i class='fa fa-trash'></i></a></span></td></tr>").appendTo(tbl);        
     $('#btnfld'+n).hide();
-    }
-    else
-    {
-        alert("You cannot give permission more than 5 Vehicles");
-    }
+    gettype(d);
+   
     
 } 
  
@@ -379,7 +417,7 @@ function deleteRow(txt) {
         var btnfldid="btnfld"+d; 
         calculate();
     }  
- function gettype()
+ function gettype(d)
  {
     $.ajax({
         url: 'getrep.php',
@@ -388,12 +426,12 @@ function deleteRow(txt) {
         dataType: 'json',
         success:function(response){ 
             var len = response.length; 
-            $(".vtype").empty();
-            $(".vtype").append("<option value=''>--Select--</option>");
+            $("#type"+d).empty();
+            $("#type"+d).append("<option value=''>--Select--</option>");
             for( var i = 0; i<len; i++){
                 var id = response[i]['id'];
                 var name = response[i]['name']; 
-                $(".vtype").append("<option value='"+id+"'>"+name+"</option>");
+                $("#type"+d).append("<option value='"+id+"'>"+name+"</option>");
 
             }
         }

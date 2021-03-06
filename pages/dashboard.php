@@ -151,11 +151,11 @@ $date =date('Y-m-d');
                         <div class="card-body py-0 px-4 b-t-1">
                             <div class="row">
                                 <div class="col-6 b-r-1 py-3 text-center">
-                                <div class="small">INR. <?php echo $petrol; ?> (approx.)</div>
+                                <div class="small">INR. <?php echo $petrol; ?></div>
                                     <div class="font-weight-bold "> Petrol </div>
                                 </div>
                                 <div class='col-6 py-3 text-center'>
-                                <div class="small   ">INR.  <?php echo $desiel; ?> (approx.)</div>
+                                <div class="small   ">INR.  <?php echo $desiel; ?></div>
                                     <div class="font-weight-bold ">Diesel</div>
                                 </div>
                             </div>  

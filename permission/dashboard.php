@@ -67,6 +67,9 @@ include("../layout/header.php");
                                         <th>
                                             Political Party Name
                                         </th>
+                                        <th>
+                                            LAC
+                                        </th>
                                         <th width="70px">
                                             No.(s) of Vehicles 
                                         </th>
@@ -133,6 +136,7 @@ function getrep()
             { data: "letterno" , name: "letterno",orderable: true, searchable: true, visible: true },
             { data: "name" , name: "name",orderable: true, searchable: true, visible: true },
             { data: "party", name: "party",orderable: true, searchable: true, visible: true }, 
+            { data: "lac", name: "lac",orderable: true, searchable: true, visible: true }, 
             { data: "cnt", name: "cnt",orderable: true, searchable: true, visible: true },
             { data: "datefrom", name: "datefrom",orderable: true, searchable: true, visible: true },
             { data: "dateto", name: "dateto",orderable: true, searchable: true, visible: true }, 

@@ -13,13 +13,19 @@ if(isset($_REQUEST['rep']) )
         $tot= 0;
         $cnt=0;
         while($rsult= mysqli_fetch_array($rslt)) { 
-            
+            $lac="";
                 $q = "select count(1) as cnt from perm_vehicles where status=1 and per_id=".$rsult['id'];
                 $rs=mysqli_query($mysqli,$q); 
                 while($r= mysqli_fetch_array($rs)) { 
                     $cnt= $r['cnt'];
                 }
-
+                if($rsult['lac']==95)
+                {
+                    $lac="95-Golaghat";
+                }
+                else {
+                    $lac="96-Khumtai";
+                }
             $sl = $sl+1;
             $data[] = [ 
                 'sl'=>$sl, 
@@ -28,6 +34,7 @@ if(isset($_REQUEST['rep']) )
                 'datefrom'=> date('d-m-Y', strtotime($rsult['from_date'])),
                 'dateto'=> date('d-m-Y', strtotime($rsult['to_date'])),
                 'name'=> $rsult['candname'],
+                'lac'=> $lac,
                 'party'=> $rsult['party'], 
                 'user'=> $rsult['user'], 
                 'cnt'=> $cnt, 

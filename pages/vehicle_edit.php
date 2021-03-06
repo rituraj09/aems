@@ -43,7 +43,15 @@ $id=$_REQUEST['id'];
     
     if(isset($_POST['Submit']))
     {
-   
+   		if(isset($_POST['reg_no']))
+        {
+        $reg =   $_POST['reg_no']; 
+        }
+    else
+    {
+    	$reg =    $reg ;
+    }
+      
         $name =   $_POST['name']; 
         $owner =  $_POST['owner']; 
         $owner_ph =  $_POST['owner_ph']; 
@@ -53,8 +61,7 @@ $id=$_REQUEST['id'];
         $used_from =  $_POST['used_from'];  
         $fuel =  $_POST['fuel'];  
         $used_from =  $_POST['used_from'];  
-        $used_type =  $_POST['used_type'];  
-    
+        $used_type =  $_POST['used_type'];   
     
         if(empty($_POST["name"])){  
             $vehicle_name_err = "Please enter Model";
@@ -85,8 +92,7 @@ $id=$_REQUEST['id'];
         } 
         elseif(empty($_POST["used_type"])){
             $used_err = "Please select Used In";
-        } 
-    
+        }  
         else
         {  
             $s = "SELECT count(1) as cnt from vehicles where reg_no = '$reg' and id!=".$id;
@@ -97,7 +103,7 @@ $id=$_REQUEST['id'];
                 {   
                     $date_from = date('Y-m-d', strtotime($used_from));
                     $reg = strtoupper($reg);
-                    $sql="Update vehicles set owner_name ='$name' ,owner_phone = '$owner_ph', driver_name='$driver', driver_phone='$driver_ph',  vehicle_type='$type',model='$name',used_type='$used_type',fuel_type='$fuel',used_from='$date_from'   where id=".$id;
+                    $sql="Update vehicles set owner_name ='$name', reg_no='$reg' ,owner_phone = '$owner_ph', driver_name='$driver', driver_phone='$driver_ph',  vehicle_type='$type',model='$name',used_type='$used_type',fuel_type='$fuel',used_from='$date_from'   where id=".$id;
                     $result=mysqli_query($mysqli,$sql);
                     if($result=="1")
                     {  
@@ -186,8 +192,18 @@ $id=$_REQUEST['id'];
                             </div>
                             <div class="col-md-6">
                                     <div class="form-group <?php echo (!empty($reg_err)) ? 'has-error' : ''; ?>">
-                                        <label>Vehicle Registration Number</label><bR>
-                                         <b><?php echo $reg; ?> </b>
+                                        <label>Vehicle Registration Number</label>
+                                        <?php $s="select * from vehicle_assign where status=1 and reg_no='".$reg."'";
+                                           $sql1 = mysqli_query($mysqli, $s); 
+                                           if ($sql1->num_rows > 0)
+                                           { ?>
+                                            <br><b><?php echo $reg; ?> </b> 
+                                        <?php   } 
+                                        else {?> 
+                                            <input type="text" id="reg" name="reg_no" tabindex="2" class="form-control" autocomplete="off" maxlength="10"   style="text-transform: uppercase;"  value="<?php echo $reg; ?>">
+                                       <?php    }
+                                        ?>
+                                       
                                         <span class="text-danger"><?php echo $reg_err; ?></span>
                                     </div> 
                                     <div class="form-group <?php echo (!empty($owner_ph_err)) ? 'has-error' : ''; ?>">
